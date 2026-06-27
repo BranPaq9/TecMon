@@ -13,15 +13,24 @@ var _waiting_for_input: bool = false
 var _closing: bool = false
 
 func _ready() -> void:
+	visible = false
+	process_mode = Node.PROCESS_MODE_DISABLED
+
 	box.visible = false
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 	MessageBus.register(self)
 	MessageBus.message_requested.connect(_on_message_requested)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_reading() or _closing:
 		return
-	if Input.is_action_just_pressed("interact"): #checks to skip the current message and end the message completely
+
+	if event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()
+		AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/textbox.wav"))
+
 		if is_scrolling:
 			label.visible_characters = -1
 		elif _waiting_for_input:
@@ -32,9 +41,12 @@ func _on_message_requested(messages: Array[String], speed: int) -> void:
 	play_text(messages, speed)
 
 func play_text(payload: Array[String], speed: int) -> void:
-	if is_reading() or payload.is_empty(): #stops if already reading or no messages
+	if is_reading() or payload.is_empty():
 		return
-		
+
+	visible = true
+	process_mode = Node.PROCESS_MODE_INHERIT
+
 	Messages = payload
 	box.visible = true
 
@@ -60,12 +72,14 @@ func play_text(payload: Array[String], speed: int) -> void:
 	# Close with a brief cooldown
 	_closing = true
 	box.visible = false
+	visible = false
+	process_mode = Node.PROCESS_MODE_DISABLED
 	await get_tree().create_timer(0.1).timeout
 	_closing = false
 	MessageBus.notify_closed()
 	
 func is_reading() -> bool:
-	return box.visible
+	return visible and box.visible
 
 func scrolling() -> bool:
 	return is_scrolling

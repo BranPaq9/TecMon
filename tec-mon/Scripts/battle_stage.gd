@@ -37,7 +37,9 @@ func _on_tecmons_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_escape_pressed() -> void:
+	AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/escape.wav"))
 	await SceneManager._transition_out()
 	hide()
+	AudioManager.play_music(SceneManager.current_level.bgm)
 	await SceneManager._transition_in()
 	Global.set_movement_blocked(false)

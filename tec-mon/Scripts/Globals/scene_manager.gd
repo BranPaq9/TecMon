@@ -19,7 +19,7 @@ func _ready() -> void:
 	color_rect.color = Color.BLACK
 	color_rect.modulate.a = 0.0
 	add_child(color_rect)
-	go_to(Global.first_level.level_name)
+	# go_to(Global.main_menu.level_name)
 	
 func is_changing() -> bool:
 	return _is_changing
@@ -54,6 +54,7 @@ func go_to(level_name: String) -> void:
 
 #tweens the opacity of the black box
 func _transition_out() -> void:
+	color_rect.visible = true
 	var tween := create_tween()
 	tween.tween_property(color_rect, "modulate:a", 1.0, 0.5)
 	await tween.finished
@@ -62,3 +63,4 @@ func _transition_in() -> void:
 	var tween := create_tween()
 	tween.tween_property(color_rect, "modulate:a", 0.0, 0.5)
 	await tween.finished
+	color_rect.visible = false

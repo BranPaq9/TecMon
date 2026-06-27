@@ -2,6 +2,7 @@ extends Node
 
 signal block_movement(blocked: bool)
 
+var main_menu: LevelData = preload("res://Levels/MainMenu.tres")
 var first_level: LevelData = preload("res://Levels/LevelOne.tres")
 var shiny_odds: float = 0.00025 #Roughly 1/4096
 

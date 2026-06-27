@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 run/canvas_textures/default_texture_filter=1
 
+[audio]
+
+buses/default_bus_layout=""
+
 [autoload]
 
 Global="*uid://beqq34um8q3vm"
@@ -24,6 +28,7 @@ SceneManager="*uid://b2upxga7dcsbb"
 EncounterManager="*uid://b17tk3eysh1q6"
 MessageBus="*uid://xj0ihg0hpxbl"
 Enums="*uid://ggemjhfhb2vl"
+AudioManager="*uid://b115kjvsl6yvg"
 
 [display]
 

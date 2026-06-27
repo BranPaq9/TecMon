@@ -114,6 +114,7 @@ func start_moving() -> void:
 		start_position = global_position
 		target_position = global_position + move_direction * (TILE_SIZE * 2.0)
 		is_jumping = true
+		AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/jump.wav"))
 	else:
 		is_walking = true
 

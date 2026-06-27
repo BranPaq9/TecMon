@@ -4,7 +4,7 @@ signal encounter_started(encounter: Tecmon) ## Signal for when an encounter with
 
 func try_encounter(zone: String = "grass") -> void:
 	print("tried rolling")
-	var level := SceneManager.current_level #checks for the current level
+	var level : LevelData = SceneManager.current_level #checks for the current level
 
 	if level == null or not level.has_encounters:
 		print("no level")
@@ -19,6 +19,7 @@ func try_encounter(zone: String = "grass") -> void:
 	
 	var encounter := table.roll()
 	if encounter:
+		AudioManager.play_music(preload("res://Assets/Sounds/Music/battle_theme.wav"))
 		encounter_started.emit(encounter)
 	
 func _get_table(level: LevelData, zone: String) -> EncounterTable:

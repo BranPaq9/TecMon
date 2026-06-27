@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelData" format=3 uid="uid://qntercaclsvu"]
+
+[ext_resource type="AudioStream" uid="uid://bkpwmo86a7ba4" path="res://Assets/Sounds/Music/main_theme.wav" id="1_7farf"]
+[ext_resource type="Script" uid="uid://yrxlg1d3cmga" path="res://Resources/level_data.gd" id="2_14bkm"]
+
+[resource]
+script = ExtResource("2_14bkm")
+level_name = "Main Menu"
+scene_path = "res://Scenes/levels/main_menu.tscn"
+bgm = ExtResource("1_7farf")
+metadata/_custom_type_script = "uid://yrxlg1d3cmga"

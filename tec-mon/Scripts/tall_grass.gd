@@ -9,6 +9,7 @@ func _on_body_entered(body: Node2D) -> void:
 		calculate_encounter_chance()
 	animated_sprite_2d.play("Down")
 	gpu_particles_2d.restart()
+	AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/grass.wav"))
 	
 func _on_body_exited(body: Node2D) -> void:
 	animated_sprite_2d.play("Up")
