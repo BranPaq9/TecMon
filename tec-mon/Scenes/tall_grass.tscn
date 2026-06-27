@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://c6husefcwyqqo"]
+
+[ext_resource type="Texture2D" uid="uid://c2ucglw36ykmh" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic Plants.png" id="1_jsaq5"]
+[ext_resource type="Script" uid="uid://2thqio3382pc" path="res://Scripts/tall_grass.gd" id="1_vev6b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awwja"]
+size = Vector2(14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfbuy"]
+atlas = ExtResource("1_jsaq5")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpm1n"]
+atlas = ExtResource("1_jsaq5")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3c16j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfbuy")
+}],
+"loop": 1,
+"name": &"Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fpm1n")
+}],
+"loop": 1,
+"name": &"Up",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_vev6b"]
+colors = PackedColorArray(0.35416323, 0.6113613, 0.3124912, 1, 0.7529412, 0.83137256, 0.4392157, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hpu63"]
+gradient = SubResource("Gradient_vev6b")
+
+[sub_resource type="Curve" id="Curve_lu4oy"]
+_limits = [0.0, 1.0, 0.0, 8.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(4.03183, 0.23333335), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3c16j"]
+curve = SubResource("Curve_lu4oy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_awwja"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 8.0
+spread = 180.0
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 30, 0)
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_3c16j")
+color = Color(0.5529412, 0.69411767, 0.3647059, 1)
+color_ramp = SubResource("GradientTexture1D_hpu63")
+
+[node name="TallGrass" type="Area2D" unique_id=727446872]
+script = ExtResource("1_vev6b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=771926209]
+shape = SubResource("RectangleShape2D_awwja")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1790709813]
+sprite_frames = SubResource("SpriteFrames_3c16j")
+animation = &"Up"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1467028406]
+position = Vector2(0, -1)
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_awwja")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

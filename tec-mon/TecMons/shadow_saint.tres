@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Tecmon" format=3 uid="uid://3a4e6ebwlj82"]
+
+[ext_resource type="Texture2D" uid="uid://bcf6nbb34xmd2" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintBack.png" id="1_81fdh"]
+[ext_resource type="Texture2D" uid="uid://dk8c0bx0jrahc" path="res://Assets/Tecmons/ShadowSaint/ShadowSaint.png" id="2_3fkcc"]
+[ext_resource type="Texture2D" uid="uid://cx0la0eii8ffo" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintShiny.png" id="2_t2b15"]
+[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move.gd" id="3_t2b15"]
+[ext_resource type="Script" uid="uid://v1rv26b4ekdy" path="res://Resources/tecmon.gd" id="4_mkeyg"]
+[ext_resource type="Texture2D" uid="uid://bdp5vty85nwpl" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintShinyBack.png" id="6_mkeyg"]
+
+[resource]
+script = ExtResource("4_mkeyg")
+tecmon_name = "Shadow Saint"
+id = 2
+description = "Clad in black armor, with two ruby flames burning in the deep shadows of their visor, they look like an incarnation of pure darkness."
+type_one = 16
+type_two = 17
+front_sprite = ExtResource("2_3fkcc")
+front_shiny_sprite = ExtResource("2_t2b15")
+back_sprite = ExtResource("1_81fdh")
+shiny_back_sprite = ExtResource("6_mkeyg")
+metadata/_custom_type_script = "uid://v1rv26b4ekdy"

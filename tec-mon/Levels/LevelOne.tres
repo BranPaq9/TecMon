@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="LevelData" format=3 uid="uid://e750ciqsvyqx"]
+
+[ext_resource type="Script" uid="uid://yrxlg1d3cmga" path="res://Resources/level_data.gd" id="1_tw162"]
+[ext_resource type="Script" uid="uid://v1rv26b4ekdy" path="res://Resources/tecmon.gd" id="2_73kwu"]
+[ext_resource type="Resource" uid="uid://3a4e6ebwlj82" path="res://TecMons/shadow_saint.tres" id="3_73kwu"]
+[ext_resource type="Script" uid="uid://bptt5i3weimhl" path="res://Resources/encounter_table.gd" id="3_unndw"]
+[ext_resource type="Resource" uid="uid://dcw1l5pnyp66n" path="res://TecMons/schrodinger.tres" id="4_unndw"]
+
+[sub_resource type="Resource" id="Resource_ep8vc"]
+script = ExtResource("3_unndw")
+encounters = Array[ExtResource("2_73kwu")]([ExtResource("3_73kwu"), ExtResource("4_unndw")])
+metadata/_custom_type_script = "uid://bptt5i3weimhl"
+
+[resource]
+script = ExtResource("1_tw162")
+level_name = "Level One"
+scene_path = "res://Scenes/levels/level_one.tscn"
+has_encounters = true
+grass_encounters = SubResource("Resource_ep8vc")
+metadata/_custom_type_script = "uid://yrxlg1d3cmga"

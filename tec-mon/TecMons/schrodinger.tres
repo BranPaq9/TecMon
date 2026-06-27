@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Tecmon" format=3 uid="uid://dcw1l5pnyp66n"]
+
+[ext_resource type="Texture2D" uid="uid://d1nfhuyxelo4e" path="res://Assets/Tecmons/Schrodinger/TuffAssCat.png" id="1_4i3gt"]
+[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move.gd" id="1_4i4b1"]
+[ext_resource type="Texture2D" uid="uid://bfj462o26uiag" path="res://Assets/Tecmons/Schrodinger/schrodingermon_back.png" id="1_g5l1x"]
+[ext_resource type="Script" uid="uid://v1rv26b4ekdy" path="res://Resources/tecmon.gd" id="2_4i3gt"]
+
+[resource]
+script = ExtResource("2_4i3gt")
+tecmon_name = "Schrodinger"
+id = 3
+description = "Theyre both dead and alive, oddly attractive, and mog all other Tecmons around"
+type_one = 1
+type_two = 8
+front_sprite = ExtResource("1_4i3gt")
+back_sprite = ExtResource("1_g5l1x")
+metadata/_custom_type_script = "uid://v1rv26b4ekdy"
