@@ -5,7 +5,6 @@ extends CanvasLayer
 @export var label: RichTextLabel
 @export_category("Variables")
 @export var is_scrolling: bool = false
-@export var speed: int = 15
 @export_multiline() var Messages: Array[String] = []
 
 signal advanced
@@ -21,7 +20,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_reading() or _closing:
 		return
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("interact"): #checks to skip the current message and end the message completely
 		get_viewport().set_input_as_handled()
 		if is_scrolling:
 			label.visible_characters = -1
@@ -29,19 +28,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			_waiting_for_input = false
 			advanced.emit()
 
-func _on_message_requested(messages: Array[String]) -> void:
-	play_text(messages)
+func _on_message_requested(messages: Array[String], speed: int) -> void:
+	play_text(messages, speed)
 
-func play_text(payload: Array[String]) -> void:
-	if is_reading() or payload.is_empty():
+func play_text(payload: Array[String], speed: int) -> void:
+	if is_reading() or payload.is_empty(): #stops if already reading or no messages
 		return
+		
 	Messages = payload
-	scroll_text()
-
-func scroll_text() -> void:
 	box.visible = true
 
-	while not Messages.is_empty():
+	while not Messages.is_empty(): #goes through all the messages
 		is_scrolling = true
 		label.visible_characters = 0
 		label.text = Messages[0]
@@ -65,7 +62,8 @@ func scroll_text() -> void:
 	box.visible = false
 	await get_tree().create_timer(0.1).timeout
 	_closing = false
-
+	MessageBus.notify_closed()
+	
 func is_reading() -> bool:
 	return box.visible
 

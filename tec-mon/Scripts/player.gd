@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 @export var tile_collision_layers: Array[int] = []
 
@@ -7,6 +8,7 @@ extends CharacterBody2D
 
 @export_category("Movement")
 @export var walk_speed: float = 64.0
+@export var run_speed: float = 96.0
 @export var is_walking: bool = false
 
 @export_category("Jumping")
@@ -19,7 +21,7 @@ extends CharacterBody2D
 
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
-enum CharacterMovement { WALKING, JUMPING }
+enum CharacterMovement { WALKING, JUMPING, RUNNING }
 
 const TILE_SIZE: float = 16.0
 
@@ -29,10 +31,12 @@ var target_position: Vector2
 var move_direction: Vector2 = Vector2.ZERO
 var last_direction: Vector2 = Vector2.DOWN
 var direction_keys: Array = []
+var movement_blocked: bool = false
 
 func _ready() -> void:
 	target_position = global_position.snapped(Vector2.ONE * TILE_SIZE)
 	global_position = target_position
+	Global.block_movement.connect(_on_movement_blocked)
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if MessageBus.is_reading():
@@ -42,7 +46,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	process_input_stack()
-		
+	
 	if is_moving():
 		walk(delta)
 		jump(delta)
@@ -50,6 +54,10 @@ func _physics_process(delta: float) -> void:
 		read_input()
 		
 	update_animation()
+
+func _on_movement_blocked(blocked: bool) -> void:
+	movement_blocked = blocked
+	print(movement_blocked)
 
 ## Getter for checking player motion
 func is_moving() -> bool:
@@ -72,9 +80,9 @@ func process_input_stack() -> void:
 
 ## Reads the input from the stack and applies motion
 func read_input() -> void:
-	if direction_keys.is_empty():
+	if direction_keys.is_empty() or MessageBus.is_reading() or movement_blocked:
 		return
-
+	
 	var key: String = direction_keys.back()
 	if not Input.is_action_pressed(key):
 		return
@@ -98,7 +106,7 @@ func start_moving() -> void:
 
 	if is_target_occupied(desired_target):
 		return
-
+	
 	target_position = desired_target
 
 	if character_action == CharacterMovement.JUMPING:
@@ -112,16 +120,19 @@ func start_moving() -> void:
 func walk(delta: float) -> void:
 	if not is_walking:
 		return
-
+	var move_speed: float = walk_speed
 	var dir_to_target := target_position - global_position
-	var dist_this_frame := walk_speed * delta
-
+	var dist_this_frame := move_speed * delta
+	
+	if Input.is_action_pressed("run"):
+		move_speed = run_speed
+	
 	if dir_to_target.length() <= dist_this_frame:
 		global_position = target_position
 		velocity = Vector2.ZERO
 		stop_moving()
 	else:
-		velocity = dir_to_target.normalized() * walk_speed
+		velocity = dir_to_target.normalized() * move_speed
 		move_and_slide()
 
 func jump(delta: float) -> void:
@@ -196,7 +207,7 @@ func create_query(target_pos: Vector2, collision_layers: Array[int]) -> PhysicsP
 	
 	return query
 	
-## Gets the bit value for a layer or multiple
+## Gets the bit value for a layer or multiple because physics layers are coded with binary
 func layers(layer_numbers: Array[int]) -> int:
 	var mask := 0
 	for n in layer_numbers:
@@ -209,12 +220,13 @@ func _get_tile_map_collision(tile_map: TileMapLayer, query_pos: Vector2) -> bool
 	var tile_coords: Vector2i = tile_map.local_to_map(query_pos)
 	var tile_data: TileData = tile_map.get_cell_tile_data(tile_coords)
 
+	#checks for the custome data
 	if tile_data == null or !tile_data.has_custom_data("LEDGE"):
 		return true
 	
 	var ledge_dir: String = str(tile_data.get_custom_data("LEDGE"))
 
-	# Trigger a jump when the player walks *into* the ledge in its facing direction.
+	# Trigger a jump when the player walks into the ledge in its facing direction.
 	var facing_matches := false
 	match ledge_dir:
 		"DOWN": facing_matches = (move_direction == Vector2.DOWN)
