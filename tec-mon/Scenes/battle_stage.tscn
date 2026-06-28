@@ -61,6 +61,62 @@ patch_margin_right = 7
 patch_margin_bottom = 7
 metadata/_edit_use_anchors_ = true
 
+[node name="MoveContainer" type="VBoxContainer" parent="Control/MessageBox" unique_id=1724674273]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_left = 0.03846154
+anchor_top = 0.16666667
+anchor_right = 0.96153843
+anchor_bottom = 0.8333333
+theme_override_constants/separation = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MessageBox/MoveContainer" unique_id=1418486926]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MoveOne" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer" unique_id=261117867]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(96, 0)
+custom_maximum_size = Vector2(96, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 0
+
+[node name="MoveTwo" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer" unique_id=1311645628]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(96, 0)
+custom_maximum_size = Vector2(96, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MessageBox/MoveContainer" unique_id=1435369195]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MoveThree" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer2" unique_id=1549799311]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(96, 0)
+custom_maximum_size = Vector2(96, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 0
+
+[node name="MoveFour" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer2" unique_id=90608688]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(96, 0)
+custom_maximum_size = Vector2(96, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 0
+
 [node name="ButtonBox" type="NinePatchRect" parent="Control" unique_id=1360454410]
 layout_mode = 0
 anchor_left = 0.65
@@ -117,6 +173,42 @@ text = "Tecmons"
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "Escape"
+
+[node name="EnemyDetails" type="VBoxContainer" parent="Control" unique_id=437340371]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 32.0
+
+[node name="EnemyName" type="Label" parent="Control/EnemyDetails" unique_id=1839855742]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Placeholder"
+
+[node name="EnemyHPBar" type="ProgressBar" parent="Control/EnemyDetails" unique_id=123553268]
+unique_name_in_owner = true
+layout_mode = 2
+show_percentage = false
+
+[node name="PlayerDetails" type="VBoxContainer" parent="Control" unique_id=1504772114]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 88.0
+offset_right = 252.0
+offset_bottom = 104.0
+
+[node name="PlayerName" type="Label" parent="Control/PlayerDetails" unique_id=1599066942]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Placeholder"
+
+[node name="PlayerHPBar" type="ProgressBar" parent="Control/PlayerDetails" unique_id=1829893737]
+unique_name_in_owner = true
+layout_mode = 2
+show_percentage = false
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="Control/ButtonBox/VBoxContainer/HBoxContainer/Fight" to="." method="_on_fight_pressed"]

@@ -13,5 +13,6 @@ script = ExtResource("1_fgdfb")
 [node name="CurrentLevel" type="Node2D" parent="." unique_id=1607364168]
 
 [node name="MessageManager" parent="." unique_id=572602725 instance=ExtResource("1_oj352")]
+layer = 2
 
 [node name="BattleStage" parent="." unique_id=601046398 instance=ExtResource("3_mmt5l")]

@@ -11,6 +11,7 @@ extends Resource
 @export_category("Encounters")
 @export var has_encounters: bool = false
 @export var encounter_rate: float = 0.1  # chance per step (0.0 - 1.0)
+@export var encounter_level_multiplier : float = 1.0
 @export var grass_encounters: EncounterTable
 @export var water_encounters: EncounterTable
 @export var cave_encounters: EncounterTable

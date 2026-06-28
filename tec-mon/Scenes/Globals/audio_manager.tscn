@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://0ake41i5j0at"]
+
+[ext_resource type="Script" uid="uid://b115kjvsl6yvg" path="res://Scripts/Globals/audio_manager.gd" id="1_a6cw8"]
+[ext_resource type="AudioStream" uid="uid://dbkhq3qq7dv1l" path="res://Assets/Sounds/SFX/grass.wav" id="2_o68qb"]
+[ext_resource type="Script" uid="uid://dwyly40ou0pls" path="res://Resources/sound_effect.gd" id="3_88uku"]
+[ext_resource type="AudioStream" uid="uid://cg5a1qph3hddn" path="res://Assets/Sounds/SFX/textbox.wav" id="4_85on0"]
+[ext_resource type="AudioStream" uid="uid://cl6f65ahswynb" path="res://Assets/Sounds/SFX/jump.wav" id="5_88uku"]
+[ext_resource type="AudioStream" uid="uid://075lbaqm3a7m" path="res://Assets/Sounds/SFX/open_chest.wav" id="6_85on0"]
+
+[sub_resource type="Resource" id="Resource_a6cw8"]
+script = ExtResource("3_88uku")
+tag = "grass"
+audio_stream = ExtResource("2_o68qb")
+metadata/_custom_type_script = "uid://dwyly40ou0pls"
+
+[sub_resource type="Resource" id="Resource_rusht"]
+script = ExtResource("3_88uku")
+tag = "select"
+audio_stream = ExtResource("4_85on0")
+metadata/_custom_type_script = "uid://dwyly40ou0pls"
+
+[sub_resource type="Resource" id="Resource_o68qb"]
+script = ExtResource("3_88uku")
+tag = "jump"
+audio_stream = ExtResource("5_88uku")
+metadata/_custom_type_script = "uid://dwyly40ou0pls"
+
+[sub_resource type="Resource" id="Resource_88uku"]
+script = ExtResource("3_88uku")
+tag = "open_chest"
+audio_stream = ExtResource("6_85on0")
+metadata/_custom_type_script = "uid://dwyly40ou0pls"
+
+[node name="AudioManager" type="Node" unique_id=560959834]
+script = ExtResource("1_a6cw8")
+sfx_pool = [SubResource("Resource_a6cw8"), SubResource("Resource_rusht"), SubResource("Resource_o68qb"), SubResource("Resource_88uku")]

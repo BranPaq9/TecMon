@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3 uid="uid://j3olvthn1yym"]
+
+[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move_resource.gd" id="1_cn1hu"]
+[ext_resource type="Script" uid="uid://dud68l6yuwm1b" path="res://Resources/stat_change.gd" id="2_dtdnq"]
+
+[resource]
+script = ExtResource("1_cn1hu")
+move_name = "Slash"
+max_pp = 13
+metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"

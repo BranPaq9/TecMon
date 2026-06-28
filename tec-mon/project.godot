@@ -23,12 +23,13 @@ buses/default_bus_layout=""
 [autoload]
 
 Global="*uid://beqq34um8q3vm"
-LevelRegistry="*uid://cx62cw5yh1b2l"
 SceneManager="*uid://b2upxga7dcsbb"
 EncounterManager="*uid://b17tk3eysh1q6"
 MessageBus="*uid://xj0ihg0hpxbl"
 Enums="*uid://ggemjhfhb2vl"
-AudioManager="*uid://b115kjvsl6yvg"
+AudioManager="*uid://0ake41i5j0at"
+BattleSystem="*uid://bj4os6rr2126s"
+TypeChart="*uid://ggf3pjfkrvh1"
 
 [display]
 
@@ -42,6 +43,7 @@ window/stretch/aspect="expand"
 [global_group]
 
 GameManager=""
+Player=""
 
 [importer_defaults]
 

@@ -7,21 +7,57 @@ extends CanvasLayer
 @export var is_scrolling: bool = false
 @export_multiline() var Messages: Array[String] = []
 
+@onready var control: Control = $Control
+
 signal advanced
 
 var _waiting_for_input: bool = false
 var _closing: bool = false
+var normal_position: Vector2
+var normal_size: Vector2
+var battle_mode: bool = false
 
 func _ready() -> void:
 	visible = false
+	normal_position = box.position
+	normal_size = box.size
 	process_mode = Node.PROCESS_MODE_DISABLED
 
 	box.visible = false
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
+	
 	MessageBus.register(self)
 	MessageBus.message_requested.connect(_on_message_requested)
+	BattleSystem.battle_started.connect(_on_battle_started)
+	BattleSystem.battle_ended.connect(_on_battle_ended)
+	
+func _on_battle_started():
+	battle_mode = true
+	switch_mode()
+
+func _on_battle_ended(outcome: BattleSystem.BattleOutcome):
+	var msg: String = ""
+	match outcome:
+		BattleSystem.BattleOutcome.PLAYER_WIN:
+			msg = "You won!"
+		BattleSystem.BattleOutcome.PLAYER_FLED:
+			msg = "Got away safely!"
+		BattleSystem.BattleOutcome.PLAYER_LOST:
+			msg = "You blacked out..."
+	
+	play_text([msg], 30)
+	battle_mode = false
+	await MessageBus.message_box_closed
+	switch_mode()
+	
+func switch_mode():
+	if battle_mode == true:
+		box.position = Vector2(0, 112)
+		box.size = Vector2(208, 48)
+	else:
+		box.position = normal_position
+		box.size = normal_size
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_reading() or _closing:
@@ -29,7 +65,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()
-		AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/textbox.wav"))
+		AudioManager.play_sfx("select")
 
 		if is_scrolling:
 			label.visible_characters = -1

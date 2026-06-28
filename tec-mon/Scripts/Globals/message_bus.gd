@@ -18,6 +18,7 @@ func is_reading() -> bool:
 	return _message_box.is_reading()
 	
 func notify_closed() -> void:
-	Global.set_movement_blocked(false)
+	if !_message_box.battle_mode:
+		Global.set_movement_blocked(false)
 	message_box_closed.emit()
 	

@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 @export var tile_collision_layers: Array[int] = []
+@export var starter_tecmon: TecmonData
 
 @export_category("Nodes")
 @export var animation_tree: AnimationTree
@@ -114,7 +115,7 @@ func start_moving() -> void:
 		start_position = global_position
 		target_position = global_position + move_direction * (TILE_SIZE * 2.0)
 		is_jumping = true
-		AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/jump.wav"))
+		AudioManager.play_sfx("jump")
 	else:
 		is_walking = true
 
