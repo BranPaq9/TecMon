@@ -1,25 +1,32 @@
 extends Resource
 class_name EncounterTable
 
-@export var encounters: Array[Tecmon] = []
+## A weighted list of TecmonData entries for a given zone.
+## roll() generates a fully initialised TecmonInstance, including level and shiny check.
 
-func roll() -> Tecmon:
-	if encounters.is_empty():
+@export var entries: Array[EncounterEntry] = []
+
+## Returns a new TecmonInstance, or null if the table is empty.
+func _roll() -> TecmonInstance:
+	if entries.is_empty():
 		return null
-	
-	var total_weight := 0
-	for e in encounters: #gets the total weight for all the tecmon in the table
-		total_weight += e.weight
-	
-	var roll := randi() % total_weight
-	var cumulative := 0
-	
-	for e in encounters: #rolls to see what tecmon will be chosen
-		cumulative += e.weight
-		if roll < cumulative:
-			var shiny_roll : float = randf()
-			if shiny_roll < Global.shiny_odds: #checks to see if the tecmon will be shiny
-				e.is_shiny = true
-			return e
 
-	return encounters.back()
+	var total_weight: int = 0
+	for entry in entries:
+		total_weight += entry.data.weight
+
+	var roll: int = randi() % total_weight
+	var cumulative: int = 0
+
+	for entry in entries:
+		cumulative += entry.data.weight
+		if roll < cumulative:
+			print(entry.data.tecmon_name)
+			return _spawn(entry)
+	
+	return null  ## Should never reach here.
+
+func _spawn(entry: EncounterEntry) -> TecmonInstance:
+	var spawned_level: int = randi_range(entry.data.min_level, entry.data.max_level)
+	var is_shiny: bool = randf() < Global.shiny_odds
+	return TecmonInstance.create(entry.data, spawned_level, is_shiny)

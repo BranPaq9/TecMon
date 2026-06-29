@@ -6,10 +6,10 @@
 
 [node name="MessageManager" type="CanvasLayer" unique_id=572602725 node_paths=PackedStringArray("box", "label")]
 script = ExtResource("1_tolam")
-box = NodePath("Control/NinePatchRect")
-label = NodePath("Control/NinePatchRect/RichTextLabel")
+box = NodePath("Container/NinePatchRect")
+label = NodePath("Container/NinePatchRect/RichTextLabel")
 
-[node name="Control" type="Control" parent="." unique_id=1475480154]
+[node name="Container" type="Control" parent="." unique_id=1475480154]
 layout_mode = 3
 anchor_right = 1.0
 anchor_bottom = 0.99162495
@@ -17,13 +17,13 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Control" unique_id=1139521266]
+[node name="NinePatchRect" type="NinePatchRect" parent="Container" unique_id=1139521266]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
-anchor_top = 0.5546452
+anchor_top = 0.6554898
 anchor_right = 0.8
-anchor_bottom = 0.8067566
+anchor_bottom = 0.90760124
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_pvxr8")
@@ -33,7 +33,7 @@ patch_margin_right = 7
 patch_margin_bottom = 7
 metadata/_edit_use_anchors_ = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control/NinePatchRect" unique_id=975812402]
+[node name="RichTextLabel" type="RichTextLabel" parent="Container/NinePatchRect" unique_id=975812402]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.041666668
@@ -47,3 +47,7 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("2_tolam")
 text = "Placeholder"
 metadata/_edit_use_anchors_ = true
+
+[node name="MessageTimer" type="Timer" parent="." unique_id=735205660]
+wait_time = 0.5
+one_shot = true

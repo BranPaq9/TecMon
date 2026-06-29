@@ -8,5 +8,5 @@ func _ready() -> void:
 		return
 
 	if level_data.bgm != null:
-		AudioManager.play_music(level_data.bgm)
+		AudioManager.play_music(level_data.bgm, -12)
 		

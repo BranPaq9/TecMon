@@ -3,34 +3,85 @@ extends CanvasLayer
 @export_category("Components")
 @export var box: NinePatchRect
 @export var label: RichTextLabel
+
 @export_category("Variables")
 @export var is_scrolling: bool = false
 @export_multiline() var Messages: Array[String] = []
+
+@onready var container: Control = $Container
+@onready var message_timer: Timer = $MessageTimer
 
 signal advanced
 
 var _waiting_for_input: bool = false
 var _closing: bool = false
-
+var normal_position: Vector2
+var normal_size: Vector2
+var battle_mode: bool = false
+var _passive: bool = false  ## True when showing text that doesn't wait for input.
+var timer_done
 func _ready() -> void:
 	visible = false
+	normal_position = box.position
+	normal_size = box.size
 	process_mode = Node.PROCESS_MODE_DISABLED
-
 	box.visible = false
-	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	MessageBus.register(self)
 	MessageBus.message_requested.connect(_on_message_requested)
+	BattleSystem.battle_started.connect(_on_battle_started)
+	BattleSystem.battle_ended.connect(_on_battle_ended)
+	message_timer.timeout.connect(_on_timer_timeout)
+	
+func _on_timer_timeout(): 
+	if _waiting_for_input:
+		_waiting_for_input = false
+		advanced.emit()
+			
+func _on_battle_started() -> void:
+	battle_mode = true
+	switch_mode()
+
+func _on_battle_ended(outcome: BattleSystem.BattleOutcome) -> void:
+	## Clear any passive prompt before showing the result message.
+	if _passive:
+		_clear_passive()
+	
+func switch_mode() -> void:
+	if battle_mode:
+		box.position = Vector2(0, 112)
+		box.size = Vector2(208, 48)
+	else:
+		box.position = normal_position
+		box.size = normal_size
+
+func show_passive(text: String, speed: int = 30) -> void:
+	## If a real message is mid-play, don't interrupt it.
+	if is_reading() and not _passive:
+		return
+	_passive = true
+	visible = true
+	process_mode = Node.PROCESS_MODE_INHERIT
+	box.visible = true
+	label.text = text
+	label.visible_characters = -1
+
+func _clear_passive() -> void:
+	_passive = false
+	box.visible = false
+	visible = false
+	process_mode = Node.PROCESS_MODE_DISABLED
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_reading() or _closing:
+	## Passive mode: box is visible but we deliberately ignore input here.
+	if _passive or _closing:
 		return
-
+	if not is_reading():
+		return
 	if event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()
-		AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/textbox.wav"))
-
+		AudioManager.play_sfx("select")
 		if is_scrolling:
 			label.visible_characters = -1
 		elif _waiting_for_input:
@@ -41,35 +92,33 @@ func _on_message_requested(messages: Array[String], speed: int) -> void:
 	play_text(messages, speed)
 
 func play_text(payload: Array[String], speed: int) -> void:
+	## If passive text is showing, clear it first so we can take over the box.
+	if _passive:
+		_clear_passive()
 	if is_reading() or payload.is_empty():
 		return
-
 	visible = true
 	process_mode = Node.PROCESS_MODE_INHERIT
-
 	Messages = payload
 	box.visible = true
 
-	while not Messages.is_empty(): #goes through all the messages
+	while not Messages.is_empty():
 		is_scrolling = true
 		label.visible_characters = 0
 		label.text = Messages[0]
-
 		for i in Messages[0].length():
 			if label.visible_characters == -1:
 				break
 			label.visible_characters = i + 1
+			AudioManager.play_sfx("dialog", -15, 1)
 			await get_tree().create_timer(1.0 / speed).timeout
-
 		label.visible_characters = -1
 		is_scrolling = false
 		Messages.remove_at(0)
-
-		# Wait for interact before next message or closing
 		_waiting_for_input = true
+		message_timer.start()
 		await advanced
 
-	# Close with a brief cooldown
 	_closing = true
 	box.visible = false
 	visible = false
@@ -77,9 +126,11 @@ func play_text(payload: Array[String], speed: int) -> void:
 	await get_tree().create_timer(0.1).timeout
 	_closing = false
 	MessageBus.notify_closed()
-	
+
 func is_reading() -> bool:
-	return visible and box.visible
+	## Passive counts as "showing" but not as "reading" for input purposes.
+	## BattleSystem's _say() checks MessageBus.message_box_closed, not is_reading.
+	return visible and box.visible and not _passive
 
 func scrolling() -> bool:
 	return is_scrolling

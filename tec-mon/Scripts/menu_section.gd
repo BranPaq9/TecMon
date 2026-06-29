@@ -18,7 +18,6 @@ func _ready() -> void:
 
 	_animate_background()
 
-
 func _animate_background() -> void:
 	var random_offset := Vector2(
 		randf_range(-bg_move_amount, bg_move_amount),
@@ -46,7 +45,6 @@ func _on_start_button_pressed() -> void:
 	canvas_parent.hide()
 	SceneManager.go_to(Global.first_level.level_name)
 
-
 func _on_options_button_pressed() -> void:
 	pass # Replace with function body.
 
@@ -56,4 +54,4 @@ func _on_exit_button_pressed() -> void:
 
 
 func _on_button_mouse_entered() -> void:
-	AudioManager.play_sfx(preload("res://Assets/Sounds/SFX/textbox.wav"))
+	AudioManager.play_sfx("select")

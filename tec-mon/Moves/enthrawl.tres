@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3 uid="uid://bp7ouaqo6pf3g"]
+
+[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move_resource.gd" id="1_72lnv"]
+[ext_resource type="Script" uid="uid://dud68l6yuwm1b" path="res://Resources/stat_change.gd" id="2_8xbqm"]
+
+[sub_resource type="Resource" id="Resource_5rsxf"]
+script = ExtResource("2_8xbqm")
+stat = 2
+stages = 2
+target = 0
+metadata/_custom_type_script = "uid://dud68l6yuwm1b"
+
+[resource]
+script = ExtResource("1_72lnv")
+move_name = "Enthrawl"
+move_type = 16
+move_category = 2
+stat_changes = Array[ExtResource("2_8xbqm")]([SubResource("Resource_5rsxf")])
+metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"

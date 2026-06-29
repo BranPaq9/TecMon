@@ -1,27 +1,23 @@
 extends Node
 
-signal encounter_started(encounter: Tecmon) ## Signal for when an encounter with a tecmon begins
+signal encounter_started(encounter: TecmonInstance)  ## Emits a live instance, not a blueprint.
 
 func try_encounter(zone: String = "grass") -> void:
-	print("tried rolling")
-	var level : LevelData = SceneManager.current_level #checks for the current level
-
+	var level := SceneManager.current_level
 	if level == null or not level.has_encounters:
-		print("no level")
 		return
-	
-	if randf() > level.encounter_rate: #rolls for the chance to get an encounter
+
+	if randf() > level.encounter_rate:
 		return
-	
-	var table: EncounterTable = _get_table(level, zone) # gets the encounter table based on the level and terrain
+
+	var table: EncounterTable = _get_table(level, zone)
 	if table == null:
 		return
-	
-	var encounter := table.roll()
-	if encounter:
-		AudioManager.play_music(preload("res://Assets/Sounds/Music/battle_theme.wav"))
-		encounter_started.emit(encounter)
-	
+
+	var instance : TecmonInstance = table._roll()
+	if instance:
+		encounter_started.emit(instance)
+
 func _get_table(level: LevelData, zone: String) -> EncounterTable:
 	match zone:
 		"grass": return level.grass_encounters

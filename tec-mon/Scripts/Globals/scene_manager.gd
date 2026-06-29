@@ -8,8 +8,11 @@ var color_rect: ColorRect
 var game_manager: Node
 var current_level_container: Node2D
 
+var _levels: Dictionary = {}
+var dir_path: String = "res://Levels/"
 
 func _ready() -> void:
+	_register_all()
 	# Creates a black box that fill the screen for the transitions
 	# Makes it ignore mouse inputs
 	layer = 100
@@ -21,6 +24,25 @@ func _ready() -> void:
 	add_child(color_rect)
 	# go_to(Global.main_menu.level_name)
 	
+func _register_all() -> void: #Gets all the level reosurces in a specific dir
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var file := dir.get_next()
+	while file != "":
+		if file.get_extension() == "tres":
+			var res: LevelData = load(dir_path + file)
+			if res is LevelData:
+				_levels[res.level_name] = res
+		file = dir.get_next()
+	
+func get_level(level_name: String) -> LevelData:
+	return _levels.get(level_name, null)
+
+func get_all() -> Dictionary:
+	return _levels
+	
 func is_changing() -> bool:
 	return _is_changing
 
@@ -28,7 +50,7 @@ func go_to(level_name: String) -> void:
 	if _is_changing:
 		return
 	
-	var level_data := LevelRegistry.get_level(level_name)
+	var level_data := get_level(level_name)
 	if level_data == null:
 		push_error("Level not found: " + level_name)
 		return

@@ -1,14 +1,32 @@
-[gd_resource type="Resource" script_class="Tecmon" format=3 uid="uid://3a4e6ebwlj82"]
+[gd_resource type="Resource" script_class="TecmonData" format=3 uid="uid://3a4e6ebwlj82"]
 
 [ext_resource type="Texture2D" uid="uid://bcf6nbb34xmd2" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintBack.png" id="1_81fdh"]
 [ext_resource type="Texture2D" uid="uid://dk8c0bx0jrahc" path="res://Assets/Tecmons/ShadowSaint/ShadowSaint.png" id="2_3fkcc"]
 [ext_resource type="Texture2D" uid="uid://cx0la0eii8ffo" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintShiny.png" id="2_t2b15"]
-[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move.gd" id="3_t2b15"]
-[ext_resource type="Script" uid="uid://v1rv26b4ekdy" path="res://Resources/tecmon.gd" id="4_mkeyg"]
-[ext_resource type="Texture2D" uid="uid://bdp5vty85nwpl" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintShinyBack.png" id="6_mkeyg"]
+[ext_resource type="Script" uid="uid://wk84hdijy5yf" path="res://Resources/learn_entry.gd" id="4_3fkcc"]
+[ext_resource type="Texture2D" uid="uid://b7rjuaf05hflh" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintMini.png" id="4_t2b15"]
+[ext_resource type="Resource" uid="uid://j3olvthn1yym" path="res://Moves/slash.tres" id="5_t2b15"]
+[ext_resource type="Resource" uid="uid://dlp2wek0bb36p" path="res://Moves/intimidate.tres" id="6_mkeyg"]
+[ext_resource type="Script" uid="uid://v1rv26b4ekdy" path="res://Resources/tecmon_data.gd" id="6_t2b15"]
+[ext_resource type="Resource" uid="uid://bp7ouaqo6pf3g" path="res://Moves/enthrawl.tres" id="7_d30ua"]
+
+[sub_resource type="Resource" id="Resource_r2b17"]
+script = ExtResource("4_3fkcc")
+move = ExtResource("5_t2b15")
+metadata/_custom_type_script = "uid://wk84hdijy5yf"
+
+[sub_resource type="Resource" id="Resource_86yp2"]
+script = ExtResource("4_3fkcc")
+move = ExtResource("6_mkeyg")
+metadata/_custom_type_script = "uid://wk84hdijy5yf"
+
+[sub_resource type="Resource" id="Resource_72lnv"]
+script = ExtResource("4_3fkcc")
+move = ExtResource("7_d30ua")
+metadata/_custom_type_script = "uid://wk84hdijy5yf"
 
 [resource]
-script = ExtResource("4_mkeyg")
+script = ExtResource("6_t2b15")
 tecmon_name = "Shadow Saint"
 id = 2
 description = "Clad in black armor, with two ruby flames burning in the deep shadows of their visor, they look like an incarnation of pure darkness."
@@ -17,5 +35,6 @@ type_two = 17
 front_sprite = ExtResource("2_3fkcc")
 front_shiny_sprite = ExtResource("2_t2b15")
 back_sprite = ExtResource("1_81fdh")
-shiny_back_sprite = ExtResource("6_mkeyg")
+mini_sprite = ExtResource("4_t2b15")
+learnset = Array[ExtResource("4_3fkcc")]([SubResource("Resource_r2b17"), SubResource("Resource_86yp2"), SubResource("Resource_72lnv")])
 metadata/_custom_type_script = "uid://v1rv26b4ekdy"

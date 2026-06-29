@@ -17,3 +17,7 @@ https://freesound.org/people/Mrthenoronha/sounds/519630/
 Escape:
 Artist: DeVern
 https://freesound.org/people/DeVern/sounds/517664/
+
+DialogSFX:
+Artist AD Sounds
+https://ad-sounds.itch.io/dialog-text-sound-effects
