@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3 uid="uid://dlp2wek0bb36p"]
+
+[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move_resource.gd" id="1_86yp2"]
+[ext_resource type="Script" uid="uid://dud68l6yuwm1b" path="res://Resources/stat_change.gd" id="2_ra8tq"]
+
+[resource]
+script = ExtResource("1_86yp2")
+move_name = "Intimidate"
+move_type = 1
+move_category = 2
+ailment = 3
+ailment_chance = 100
+ailment_turns = 1
+metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"

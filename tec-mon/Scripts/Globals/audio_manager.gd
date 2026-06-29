@@ -1,6 +1,5 @@
 extends Node
 
-@export var sfx_pool_size: int = 16
 @export var sfx_pool: Array[SoundEffect]
 
 var music_player: AudioStreamPlayer
@@ -12,7 +11,7 @@ func _ready() -> void:
 	music_player.bus = "Music"
 	add_child(music_player)
 
-	for i in sfx_pool_size:
+	for i in sfx_pool.size():
 		var player := AudioStreamPlayer.new()
 		player.bus = "SFX"
 		add_child(player)

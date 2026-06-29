@@ -6,5 +6,6 @@
 [resource]
 script = ExtResource("1_cn1hu")
 move_name = "Slash"
+base_power = 70
 max_pp = 13
 metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"

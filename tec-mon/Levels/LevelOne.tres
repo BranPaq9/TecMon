@@ -22,5 +22,6 @@ level_name = "Town One"
 scene_path = "res://Scenes/levels/level_one.tscn"
 bgm = ExtResource("1_j2fmd")
 has_encounters = true
+encounter_rate = 0.5
 grass_encounters = SubResource("Resource_ep8vc")
 metadata/_custom_type_script = "uid://yrxlg1d3cmga"
