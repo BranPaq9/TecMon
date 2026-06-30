@@ -16,9 +16,9 @@ var phase: TurnPhase = TurnPhase.IDLE
 var _queued_player_move: MoveInstance = null
 var _player_is_fleeing: bool = false
 
-func start_battle(enemy_instance: TecmonInstance, party: Array[TecmonInstance]) -> void:
+func start_battle(enemy_instance: Array[TecmonInstance], party: Array[TecmonInstance]) -> void:
 	player_party = party
-	player_participant = BattleParticipant.create(party[0], true)
+	player_participant = BattleParticipant.create(party, true)
 	enemy_participant  = BattleParticipant.create(enemy_instance, false)
 	phase = TurnPhase.AWAITING_INPUT
 	battle_started.emit()
@@ -67,13 +67,33 @@ func execute_turn() -> void:
 
 	if enemy_participant.is_fainted():
 		await _say(enemy_participant.display_name() + " fainted!")
-		_end_battle(BattleOutcome.PLAYER_WIN)
-		return
-
+		if enemy_participant.all_fainted != true:
+			var count = 0
+			while enemy_participant.current_mon.is_fainted() and count < enemy_participant.party.size():
+				enemy_participant.current_mon = enemy_participant.party[count]
+				count += 1
+			if count == enemy_participant.party.size():
+				enemy_participant.all_fainted = true
+				_end_battle(BattleOutcome.PLAYER_WIN)
+				return
+			else:
+				await _say("Enemy sent out " + enemy_participant.current_mon.display_name())
+				
 	if player_participant.is_fainted():
 		await _say(player_participant.display_name() + " fainted!")
-		_end_battle(BattleOutcome.PLAYER_LOST)
-		return
+		if player_participant.all_fainted != true:
+			var count = 0
+			while player_participant.current_mon.is_fainted() and count < player_participant.party.size():
+				player_participant.current_mon = player_participant.party[count]
+				count += 1
+			if count == player_participant.party.size():
+				player_participant.all_fainted = true
+				_end_battle(BattleOutcome.PLAYER_LOST)
+				return
+			else:
+				pass
+				#await _say("Opponent sent out " + enemy_participant.current_mon.display_name())
+				
 
 	_queued_player_move = null
 	_player_is_fleeing = false
@@ -110,7 +130,7 @@ func _resolve_move(user: BattleParticipant, target: BattleParticipant, move_inst
 	match move_inst.move.move_category:
 		MoveResource.MoveCategory.PHYSICAL, MoveResource.MoveCategory.SPECIAL:
 			var result := _calc_damage(user, target, move_inst.move)
-			target.take_damage(result.damage)
+			target.take_damage(roundi(result.damage))
 			move_executed.emit(user, target, move_inst, result)
 			if result.is_critical:
 				await _say("A critical hit!")
@@ -126,7 +146,7 @@ func _resolve_move(user: BattleParticipant, target: BattleParticipant, move_inst
 func _apply_move_effects(move: MoveResource, user: BattleParticipant, target: BattleParticipant) -> void:
 	if move.ailment != Enums.TecmonAilment.NONE:
 		if randf() * 100.0 < move.ailment_chance:
-			if target.instance.apply_ailment(move.ailment, move.ailment_turns):
+			if target.current_mon.apply_ailment(move.ailment, move.ailment_turns):
 				await _say(target.display_name() + " was " + _ailment_label(move.ailment) + "!")
 			else:
 				await _say("It didn't affect " + target.display_name() + "!")
@@ -167,14 +187,14 @@ func _calc_damage(user: BattleParticipant, target: BattleParticipant, move: Move
 	if move.move_category == MoveResource.MoveCategory.PHYSICAL:
 		atk = user.effective_stat(Enums.TecmonStat.ATTACK)
 		def = target.effective_stat(Enums.TecmonStat.DEFENSE)
-		if user.instance.has_ailment(Enums.TecmonAilment.BURN):
+		if user.current_mon.has_ailment(Enums.TecmonAilment.BURN):
 			atk *= 0.5
 	else:
 		atk = user.effective_stat(Enums.TecmonStat.SPECIAL_ATTACK)
 		def = target.effective_stat(Enums.TecmonStat.SPECIAL_DEFENSE)
 	result.is_critical = randf() < 0.0625
-	result.effectiveness = _calc_effectiveness(move.move_type, target.instance.data)
-	var level_factor := (2.0 * user.instance.level / 5.0) + 2.0
+	result.effectiveness = _calc_effectiveness(move.move_type, target.current_mon.data)
+	var level_factor := (2.0 * user.current_mon.level / 5.0) + 2.0
 	var crit_mod := 1.5 if result.is_critical else 1.0
 	var raw := (level_factor * move.base_power * (atk / def)) / 50.0 + 2.0
 	result.damage = raw * crit_mod * result.effectiveness * randf_range(0.85, 1.0)
@@ -187,8 +207,8 @@ func _calc_effectiveness(move_type: Enums.TecmonType, target_data: TecmonData) -
 	return mult
 
 func _calc_confusion_damage(user: BattleParticipant) -> float:
-	var level_factor := (2.0 * user.instance.level / 5.0) + 2.0
-	return (level_factor * 40.0 * (user.instance.attack / user.instance.defense)) / 50.0 + 2.0
+	var level_factor := (2.0 * user.current_mon.level / 5.0) + 2.0
+	return (level_factor * 40.0 * (user.current_mon.attack / user.current_mon.defense)) / 50.0 + 2.0
 
 func _hit_check(move: MoveResource, user: BattleParticipant, target: BattleParticipant) -> bool:
 	if move.accuracy <= 0:
@@ -204,7 +224,7 @@ func _can_flee() -> bool:
 	return p_spd >= e_spd or randf() < (p_spd * 128.0 / e_spd) / 255.0
 
 func _pick_enemy_move() -> MoveInstance:
-	var available := enemy_participant.instance.moves.filter(func(m): return m.has_pp())
+	var available := enemy_participant.current_mon.moves.filter(func(m): return m.has_pp())
 	return available[randi() % available.size()] if not available.is_empty() else null
 
 func _end_battle(outcome: BattleOutcome) -> void:

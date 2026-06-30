@@ -1,7 +1,10 @@
 extends RefCounted
 class_name BattleParticipant
 
-var instance: TecmonInstance
+
+var party: Array[TecmonInstance]
+var current_mon : TecmonInstance
+var all_fainted : bool = false
 var is_player_side: bool = false
 
 var stat_stages: Dictionary = {
@@ -17,20 +20,30 @@ var stat_stages: Dictionary = {
 var is_protected: bool = false
 var trapped: bool = false
 
-static func create(inst: TecmonInstance, player_side: bool) -> BattleParticipant:
+static func create(party: Array[TecmonInstance], player_side: bool) -> BattleParticipant:
 	var p := BattleParticipant.new()
-	p.instance = inst
+	p.party = party
+	p.current_mon = p.party[0]
+	
+	var count = 0
+	while p.current_mon.is_fainted() and count < p.party.size():
+		p.current_mon = p.party[count]
+		count += 1
+		
+	if count == p.party.size():
+		p.all_fainted = true
+		
 	p.is_player_side = player_side
 	return p
 
 func effective_stat(stat: Enums.TecmonStat) -> float:
 	var base: float
 	match stat:
-		Enums.TecmonStat.ATTACK: base = instance.attack
-		Enums.TecmonStat.DEFENSE: base = instance.defense
-		Enums.TecmonStat.SPECIAL_ATTACK: base = instance.special_attack
-		Enums.TecmonStat.SPECIAL_DEFENSE: base = instance.special_defense
-		Enums.TecmonStat.SPEED: base = instance.speed
+		Enums.TecmonStat.ATTACK: base = current_mon.attack
+		Enums.TecmonStat.DEFENSE: base = current_mon.defense
+		Enums.TecmonStat.SPECIAL_ATTACK: base = current_mon.special_attack
+		Enums.TecmonStat.SPECIAL_DEFENSE: base = current_mon.special_defense
+		Enums.TecmonStat.SPEED: base = current_mon.speed
 		_: base = 1.0
 	return base * _stage_multiplier(stat)
 
@@ -51,14 +64,14 @@ func reset_stages() -> void:
 	for stat in stat_stages:
 		stat_stages[stat] = 0
 
-func is_fainted() -> bool: return instance.is_fainted()
-func display_name() -> String: return instance.display_name()
-func hp_percent() -> float: return instance.hp_percent()
-func current_hp() -> int: return roundi(instance.current_hp)
-func max_hp() -> int: return roundi(instance.max_hp)
+func is_fainted() -> bool: return current_mon.is_fainted()
+func display_name() -> String: return current_mon.display_name()
+func hp_percent() -> float: return current_mon.hp_percent()
+func current_hp() -> int: return roundi(current_mon.current_hp)
+func max_hp() -> int: return roundi(current_mon.max_hp)
 
 func take_damage(amount: float) -> void:
-	instance.take_damage(amount)
+	current_mon.take_damage(amount)
 
 ## Runs all end-of-turn ailment ticks. Returns an Array of [ailment_type, damage]
 ## pairs so BattleSystem can generate the right messages.
@@ -66,22 +79,22 @@ func tick_ailments() -> Array:
 	var events: Array = []
 	var to_clear: Array[Enums.TecmonAilment] = []
 
-	for a: ActiveAilment in instance.ailments:
+	for a: ActiveAilment in current_mon.ailments:
 		match a.type:
 			Enums.TecmonAilment.BURN:
-				var dmg := instance.max_hp / 16.0
-				instance.take_damage(dmg)
+				var dmg := current_mon.max_hp / 16.0
+				current_mon.take_damage(dmg)
 				events.append([a.type, dmg])
 
 			Enums.TecmonAilment.POISON:
-				var dmg := instance.max_hp / 8.0
-				instance.take_damage(dmg)
+				var dmg := current_mon.max_hp / 8.0
+				current_mon.take_damage(dmg)
 				events.append([a.type, dmg])
 
 			Enums.TecmonAilment.TOXIC:
 				a.toxic_counter += 1
-				var dmg := instance.max_hp * (a.toxic_counter / 16.0)
-				instance.take_damage(dmg)
+				var dmg := current_mon.max_hp * (a.toxic_counter / 16.0)
+				current_mon.take_damage(dmg)
 				events.append([a.type, dmg])
 
 			Enums.TecmonAilment.SLEEP:
@@ -106,21 +119,21 @@ func tick_ailments() -> Array:
 				## Confusion self-hit is handled at move resolution, not here.
 
 	for t in to_clear:
-		instance.clear_ailment(t)
+		current_mon.clear_ailment(t)
 
 	return events
 
 ## Called at the start of the user's move. Returns whether the move is blocked.
 func pre_move_ailment_check() -> Enums.TecmonAilment:
-	if instance.has_ailment(Enums.TecmonAilment.SLEEP):
+	if current_mon.has_ailment(Enums.TecmonAilment.SLEEP):
 		return Enums.TecmonAilment.SLEEP
-	if instance.has_ailment(Enums.TecmonAilment.FREEZE):
+	if current_mon.has_ailment(Enums.TecmonAilment.FREEZE):
 		return Enums.TecmonAilment.FREEZE
-	if instance.has_ailment(Enums.TecmonAilment.PARALYSIS):
+	if current_mon.has_ailment(Enums.TecmonAilment.PARALYSIS):
 		if randf() < 0.25:
 			return Enums.TecmonAilment.PARALYSIS
-	if instance.has_ailment(Enums.TecmonAilment.CONFUSION):
-		var conf := instance.get_ailment(Enums.TecmonAilment.CONFUSION)
+	if current_mon.has_ailment(Enums.TecmonAilment.CONFUSION):
+		var conf := current_mon.get_ailment(Enums.TecmonAilment.CONFUSION)
 		if conf and randf() < 0.333:
 			return Enums.TecmonAilment.CONFUSION
 	return Enums.TecmonAilment.NONE
@@ -129,4 +142,4 @@ func reset_battle_state() -> void:
 	reset_stages()
 	is_protected = false
 	trapped = false
-	instance.clear_ailment(Enums.TecmonAilment.CONFUSION)
+	current_mon.clear_ailment(Enums.TecmonAilment.CONFUSION)

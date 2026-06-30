@@ -42,7 +42,6 @@ func _on_encounter_started(enemy_instance: TecmonInstance) -> void:
 	await MessageBus.message_box_closed
 
 	await SceneManager._transition_out()
-	AudioManager.play_music(preload("res://Assets/Sounds/Music/battle_theme.wav"))
 	var party: Array[TecmonInstance] = [
 		TecmonInstance.create(
 			get_tree().get_first_node_in_group("Player").starter_tecmon, 4, false
@@ -50,13 +49,15 @@ func _on_encounter_started(enemy_instance: TecmonInstance) -> void:
 	]
 	party.get(0).nickname = "Saint"
 	_refresh_hp_bars()
-	BattleSystem.start_battle(enemy_instance, party)
-	show()
-	await SceneManager._transition_in()
+	var e_party : Array[TecmonInstance] = [enemy_instance]
+	BattleSystem.start_battle(e_party, party)
 	
 func _on_battle_started() -> void:
+	AudioManager.play_music(preload("res://Assets/Sounds/Music/battle_theme.wav"))
 	_refresh_hp_bars()
 	new_turn()
+	show()
+	await SceneManager._transition_in()
 
 func _set_battle_buttons_enabled(enabled: bool) -> void:
 	can_input = enabled
@@ -67,6 +68,7 @@ func _set_battle_buttons_enabled(enabled: bool) -> void:
 func _on_turn_ended() -> void:
 	## HP bars were already updated after each move_executed signal.
 	## Just show the action prompt and menu again.
+	_refresh_hp_bars()
 	new_turn()
 
 func new_turn() -> void:
@@ -81,13 +83,13 @@ func _refresh_hp_bars() -> void:
 	var player : BattleParticipant = BattleSystem.player_participant
 	
 	if enemy:
-		enemy_sprite.texture = enemy.instance.get_front_sprite()
-		enemy_name_label.text = enemy.display_name() + " Lv." + str(enemy.instance.level)
+		enemy_sprite.texture = enemy.current_mon.get_front_sprite()
+		enemy_name_label.text = enemy.display_name() + " Lv." + str(enemy.current_mon.level)
 		enemy_hp_bar.value = enemy.hp_percent() * 100.0
 		enemy_hp_label.text = (str(enemy.current_hp()) + "/ " + str(enemy.max_hp()))
 		
 	if player:
-		var player_tecmon : TecmonInstance = player.instance
+		var player_tecmon : TecmonInstance = player.current_mon
 		player_sprite.texture = player_tecmon.get_back_sprite()
 		player_name_label.text = player.display_name() + " Lv." + str(player_tecmon.level)
 		player_hp_bar.value = player.hp_percent() * 100.0
@@ -107,7 +109,7 @@ func _on_fight_pressed() -> void:
 	move_container.show()
 	AudioManager.play_sfx("select")
 	MessageBus._message_box._clear_passive()
-	var inst: TecmonInstance = BattleSystem.player_participant.instance
+	var inst: TecmonInstance = BattleSystem.player_participant.current_mon
 	var buttons := [move_one, move_two, move_three, move_four]
 	for i in 4:
 		var btn: Button = buttons[i]
@@ -119,7 +121,7 @@ func _on_fight_pressed() -> void:
 			btn.hide()
 
 func _on_move_button_pressed(index: int) -> void:
-	var inst: TecmonInstance = BattleSystem.player_participant.instance
+	var inst: TecmonInstance = BattleSystem.player_participant.current_mon
 	var move: MoveInstance = inst.moves.get(index)
 	if move == null:
 		return
