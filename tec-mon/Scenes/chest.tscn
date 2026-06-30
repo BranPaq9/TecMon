@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://casfmvq083j8x"]
+
+[ext_resource type="Script" uid="uid://vnsremda8h6t" path="res://Scripts/chest.gd" id="1_cjfl1"]
+[ext_resource type="Texture2D" uid="uid://cm545b88416av" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Chest.png" id="2_bagqn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awwja"]
+size = Vector2(16, 16)
+
+[node name="Chest" type="StaticBody2D" unique_id=1091976237]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_cjfl1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=77517132]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_awwja")
+
+[node name="Chest" type="Sprite2D" parent="." unique_id=1634874991]
+position = Vector2(-16, -16)
+texture = ExtResource("2_bagqn")
+centered = false
+hframes = 5
+vframes = 2

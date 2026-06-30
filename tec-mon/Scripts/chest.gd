@@ -1,5 +1,6 @@
 extends StaticBody2D
+class_name Chest
 
-func interact() -> void:
-	MessageBus.send(["You Have Opened a Common Chest", "You Have found a potion of healing"], 20)
+func interact():
+	MessageBus.send(["You opened a chest"])
 	AudioManager.play_sfx("open_chest")

@@ -4,20 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://bfj462o26uiag" path="res://Assets/Tecmons/Schrodinger/schrodingermon_back.png" id="1_g5l1x"]
 [ext_resource type="Script" uid="uid://v1rv26b4ekdy" path="res://Resources/tecmon_data.gd" id="2_4i3gt"]
 [ext_resource type="Script" uid="uid://wk84hdijy5yf" path="res://Resources/learn_entry.gd" id="3_g5l1x"]
-[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move_resource.gd" id="4_ed1nt"]
-[ext_resource type="Script" uid="uid://dud68l6yuwm1b" path="res://Resources/stat_change.gd" id="5_v7ush"]
-
-[sub_resource type="Resource" id="Resource_epuf7"]
-script = ExtResource("4_ed1nt")
-move_name = "Kick"
-move_type = 1
-description = "It's a kick!"
-base_power = 2
-metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"
+[ext_resource type="Resource" uid="uid://0w0qwyleq53i" path="res://Moves/kick.tres" id="4_ed1nt"]
+[ext_resource type="Texture2D" uid="uid://dyyr20p4gqjul" path="res://Assets/Tecmons/Schrodinger/TuffAssCatmini.png" id="6_v7ush"]
 
 [sub_resource type="Resource" id="Resource_analj"]
 script = ExtResource("3_g5l1x")
-move = SubResource("Resource_epuf7")
+move = ExtResource("4_ed1nt")
 metadata/_custom_type_script = "uid://wk84hdijy5yf"
 
 [resource]
@@ -29,5 +21,6 @@ type_one = 1
 type_two = 8
 front_sprite = ExtResource("1_4i3gt")
 back_sprite = ExtResource("1_g5l1x")
+mini_sprite = ExtResource("6_v7ush")
 learnset = Array[ExtResource("3_g5l1x")]([SubResource("Resource_analj")])
 metadata/_custom_type_script = "uid://v1rv26b4ekdy"

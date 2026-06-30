@@ -1,7 +1,9 @@
 extends CanvasLayer
 
-@onready var enemy_sprite:  TextureRect = $Control/EnemyTecmon
-@onready var player_sprite: TextureRect = $Control/PlayerTecmon
+
+@onready var battle_ui: Control = %BattleUI
+@onready var enemy_sprite: TextureRect = %EnemyTecmon
+@onready var player_sprite: TextureRect = %PlayerTecmon
 
 @onready var enemy_name_label: Label = %EnemyName
 @onready var enemy_hp_bar: ProgressBar = %EnemyHPBar
@@ -15,6 +17,12 @@ extends CanvasLayer
 @onready var move_two: Button = %MoveTwo
 @onready var move_three: Button = %MoveThree
 @onready var move_four: Button = %MoveFour
+
+@onready var tecmon_ui: Control = %TecmonUI
+
+@export var tecmon_details_template: PackedScene
+@onready var tecmon_detail_container: VBoxContainer = %TecmonDetailContainer
+@onready var animation_player: AnimationPlayer = $BattleUI/AnimationPlayer
 
 var can_input: bool = false
 var buttons: Array[Button]
@@ -33,6 +41,7 @@ func _ready() -> void:
 	move_three.pressed.connect(_on_move_button_pressed.bind(2))
 	move_four.pressed.connect(_on_move_button_pressed.bind(3))
 	hide()
+	tecmon_ui.hide()
 
 func _on_encounter_started(enemy_instance: TecmonInstance) -> void:
 	## Block movement and show the encounter message. BattleSystem hasn't
@@ -42,18 +51,14 @@ func _on_encounter_started(enemy_instance: TecmonInstance) -> void:
 	await MessageBus.message_box_closed
 
 	await SceneManager._transition_out()
-	var party: Array[TecmonInstance] = [
-		TecmonInstance.create(
-			get_tree().get_first_node_in_group("Player").starter_tecmon, 4, false
-		)
-	]
-	party.get(0).nickname = "Saint"
+	var party: Array[TecmonInstance] = Global.player.tecmon_party
 	_refresh_hp_bars()
 	var e_party : Array[TecmonInstance] = [enemy_instance]
 	BattleSystem.start_battle(e_party, party)
 	
 func _on_battle_started() -> void:
 	AudioManager.play_music(preload("res://Assets/Sounds/Music/battle_theme.wav"))
+	animation_player.play("idle")
 	_refresh_hp_bars()
 	new_turn()
 	show()
@@ -101,7 +106,6 @@ func _on_move_executed(_user: BattleParticipant, _target: BattleParticipant,
 	## TODO: play damage animation / screen shake here before _say() fires.
 
 #Action menu buttons
-
 func _on_fight_pressed() -> void:
 	if not can_input:
 		return
@@ -110,7 +114,7 @@ func _on_fight_pressed() -> void:
 	AudioManager.play_sfx("select")
 	MessageBus._message_box._clear_passive()
 	var inst: TecmonInstance = BattleSystem.player_participant.current_mon
-	var buttons := [move_one, move_two, move_three, move_four]
+	
 	for i in 4:
 		var btn: Button = buttons[i]
 		if i < inst.moves.size():
@@ -134,15 +138,28 @@ func _on_move_button_pressed(index: int) -> void:
 func _on_items_pressed() -> void:
 	if not can_input:
 		return
-		
 	AudioManager.play_sfx("select")
 	pass  ## TODO
 
 func _on_tecmons_pressed() -> void:
 	if not can_input:
 		return
-		
 	AudioManager.play_sfx("select")
+
+	for child in tecmon_detail_container.get_children():
+		child.queue_free()
+
+	for tecmon: TecmonInstance in Global.player.tecmon_party:
+		var details = tecmon_details_template.instantiate()
+		tecmon_detail_container.add_child(details)
+		details.get_node("%MiniTecmon").texture = tecmon.data.mini_sprite
+		details.get_node("%TecmonName").text = tecmon.display_name()
+		details.get_node("%TecmonLvl").text = "Lv." + str(tecmon.level)
+
+	tecmon_ui.show()
+	MessageBus._message_box.hide()
+	battle_ui.hide()
+	
 	pass  ## TODO
 
 func _on_escape_pressed() -> void:
@@ -157,7 +174,7 @@ func _on_battle_ended(outcome: BattleSystem.BattleOutcome) -> void:
 	## Just do the transition back to the overworld.
 	var msg: String
 	match outcome:
-		BattleSystem.BattleOutcome.PLAYER_WIN:  msg = "You won!"
+		BattleSystem.BattleOutcome.PLAYER_WIN: msg = "You won!"
 		BattleSystem.BattleOutcome.PLAYER_FLED: msg = "Got away safely!"
 		BattleSystem.BattleOutcome.PLAYER_LOST: msg = "You blacked out..."
 	MessageBus.send([msg], 30)
@@ -168,3 +185,9 @@ func _on_battle_ended(outcome: BattleSystem.BattleOutcome) -> void:
 	hide()
 	AudioManager.play_music(SceneManager.current_level.bgm)
 	await SceneManager._transition_in()
+
+
+func _on_back_button_pressed() -> void:
+	tecmon_ui.hide()
+	MessageBus._message_box.show()
+	battle_ui.show()

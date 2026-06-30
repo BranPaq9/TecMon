@@ -5,6 +5,10 @@ signal block_movement(blocked: bool)
 var main_menu: LevelData = preload("res://Levels/MainMenu.tres")
 var first_level: LevelData = preload("res://Levels/LevelOne.tres")
 var shiny_odds: float = 0.00025 #Roughly 1/4096
+var player: Player
+
+func register_player(node: Player):
+	player = node
 
 func set_movement_blocked(blocked: bool) -> void: #Global func to stop the players movement
 	block_movement.emit(blocked)

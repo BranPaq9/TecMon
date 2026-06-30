@@ -28,9 +28,10 @@ var speed: float = 0.0
 ## Use the helpers below — don't read this directly outside TecmonInstance.
 var ailments: Array[ActiveAilment] = []
 
-static func create(species: TecmonData, at_level: int, shiny: bool = false) -> TecmonInstance:
+static func create(species: TecmonData, at_level: int, name: String, shiny: bool = false) -> TecmonInstance:
 	var inst := TecmonInstance.new()
 	inst.data = species
+	inst.nickname = name
 	inst.level = at_level
 	inst.is_shiny = shiny
 	inst.compute_stats()

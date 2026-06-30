@@ -29,4 +29,4 @@ func _roll() -> TecmonInstance:
 func _spawn(entry: EncounterEntry) -> TecmonInstance:
 	var spawned_level: int = randi_range(entry.data.min_level, entry.data.max_level)
 	var is_shiny: bool = randf() < Global.shiny_odds
-	return TecmonInstance.create(entry.data, spawned_level, is_shiny)
+	return TecmonInstance.create(entry.data, spawned_level, entry.data.tecmon_name, is_shiny)

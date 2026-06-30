@@ -5,21 +5,15 @@
 [ext_resource type="Resource" uid="uid://3a4e6ebwlj82" path="res://TecMons/shadow_saint.tres" id="3_73kwu"]
 [ext_resource type="Script" uid="uid://bbs0tueywqg6" path="res://Resources/encounter_entry.gd" id="3_j2fmd"]
 [ext_resource type="Script" uid="uid://bptt5i3weimhl" path="res://Resources/encounter_table.gd" id="3_unndw"]
-[ext_resource type="Resource" uid="uid://dcw1l5pnyp66n" path="res://TecMons/schrodinger.tres" id="5_j2fmd"]
 
 [sub_resource type="Resource" id="Resource_yqty0"]
 script = ExtResource("3_j2fmd")
 data = ExtResource("3_73kwu")
 metadata/_custom_type_script = "uid://bbs0tueywqg6"
 
-[sub_resource type="Resource" id="Resource_5uv4c"]
-script = ExtResource("3_j2fmd")
-data = ExtResource("5_j2fmd")
-metadata/_custom_type_script = "uid://bbs0tueywqg6"
-
 [sub_resource type="Resource" id="Resource_ep8vc"]
 script = ExtResource("3_unndw")
-entries = Array[ExtResource("3_j2fmd")]([SubResource("Resource_yqty0"), SubResource("Resource_5uv4c")])
+entries = Array[ExtResource("3_j2fmd")]([SubResource("Resource_yqty0")])
 metadata/_custom_type_script = "uid://bptt5i3weimhl"
 
 [resource]

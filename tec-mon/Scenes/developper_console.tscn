@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://crcne3girsskt"]
+
+[ext_resource type="Script" uid="uid://b72b7uu8obdrf" path="res://Scripts/devolopper_console.gd" id="1_0tf16"]
+[ext_resource type="Texture2D" uid="uid://d2y5bb5r4rnrq" path="res://icon.svg" id="1_pi85e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0tf16"]
+size = Vector2(16, 16)
+
+[sub_resource type="Theme" id="Theme_rkeic"]
+default_font_size = 10
+
+[node name="DevelopperConsole" type="StaticBody2D" unique_id=1758512668]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_0tf16")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2006982543]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_0tf16")
+
+[node name="Chest" type="TextureRect" parent="." unique_id=1322134736]
+custom_maximum_size = Vector2(16, 16)
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("1_pi85e")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1291404604]
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1540703783]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_rkeic")
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI" unique_id=1992239365]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 8.0
+offset_right = -32.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=13897845]
+layout_mode = 2
+
+[node name="LvlBox" type="SpinBox" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer" unique_id=1585027249]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(-1, 22)
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+rounded = true
+prefix = "Lv."
+
+[node name="Nickname" type="LineEdit" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer" unique_id=815494247]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Name"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer" unique_id=1520608738]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=2090240964]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="ButtonList" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer/ScrollContainer" unique_id=1497686498]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="pressed" from="CanvasLayer/UI/HBoxContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
