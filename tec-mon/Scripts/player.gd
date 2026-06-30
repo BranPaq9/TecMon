@@ -2,14 +2,13 @@ extends CharacterBody2D
 class_name Player
 
 @export var tile_collision_layers: Array[int] = []
-@export var starter_tecmon: TecmonData
 
 @export_category("Nodes")
 @export var animation_tree: AnimationTree
 
 @export_category("Movement")
 @export var walk_speed: float = 64.0
-@export var run_speed: float = 96.0
+@export var run_speed: float = 128.0
 @export var is_walking: bool = false
 
 @export_category("Jumping")
@@ -17,12 +16,13 @@ class_name Player
 @export var jump_height_multiplier: float = 4.0
 @export var jump_tile_y: float = 1.0
 @export var jump_speed: float = 2.0
+@export var jump_running_speed: float = 4.0
 @export var progress: float = 0.0
 @export var is_jumping: bool = false
 
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
-enum CharacterMovement { WALKING, JUMPING, RUNNING }
+enum CharacterMovement { WALKING, JUMPING }
 
 const TILE_SIZE: float = 16.0
 
@@ -34,9 +34,13 @@ var last_direction: Vector2 = Vector2.DOWN
 var direction_keys: Array = []
 var movement_blocked: bool = false
 
+var tecmon_party: Array[TecmonInstance]
+var inventory: Inventory = Inventory.new()
+
 func _ready() -> void:
 	target_position = global_position.snapped(Vector2.ONE * TILE_SIZE)
 	global_position = target_position
+	Global.register_player(self)
 	Global.block_movement.connect(_on_movement_blocked)
 
 func _unhandled_input(_event: InputEvent) -> void:
@@ -140,9 +144,13 @@ func walk(delta: float) -> void:
 func jump(delta: float) -> void:
 	if not is_jumping:
 		return
-
-	progress += jump_speed * delta
-
+	
+	var move_speed: float = jump_speed
+	if Input.is_action_pressed("run"):
+		move_speed = jump_running_speed
+		
+	progress += move_speed * delta
+		
 	var pos: Vector2 = start_position.lerp(target_position, progress)
 	var arc_offset: float = jump_height * (jump_tile_y - jump_height_multiplier * (progress - 0.5) * (progress - 0.5))
 	pos.y -= arc_offset

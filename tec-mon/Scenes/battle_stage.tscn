@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://du6hp1x4unj83" path="res://Scripts/battle_stage.gd" id="1_a0fsj"]
 [ext_resource type="Texture2D" uid="uid://drvowgqj0k6ti" path="res://Assets/UI/battle_stage.png" id="1_gsrqa"]
+[ext_resource type="PackedScene" uid="uid://4po3y7pxkwmt" path="res://Scenes/tecmon_details.tscn" id="2_djpce"]
 [ext_resource type="Texture2D" uid="uid://dk8c0bx0jrahc" path="res://Assets/Tecmons/ShadowSaint/ShadowSaint.png" id="2_g0eid"]
 [ext_resource type="FontFile" uid="uid://cnww23kfbhjq0" path="res://Assets/Fonts/Minecraft.ttf" id="2_r2b17"]
 [ext_resource type="Texture2D" uid="uid://bcf6nbb34xmd2" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintBack.png" id="3_a0fsj"]
@@ -11,10 +12,50 @@
 default_font = ExtResource("2_r2b17")
 default_font_size = 8
 
+[sub_resource type="Animation" id="Animation_djpce"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%PlayerTecmon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(64, 48)]
+}
+
+[sub_resource type="Animation" id="Animation_cc6so"]
+resource_name = "idle"
+length = 1.0666700556311757
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%PlayerTecmon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.53333336, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(64, 48), Vector2(64, 49), Vector2(64, 50), Vector2(64, 49)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4ao26"]
+_data = {
+&"RESET": SubResource("Animation_djpce"),
+&"idle": SubResource("Animation_cc6so")
+}
+
 [node name="BattleStage" type="CanvasLayer" unique_id=601046398]
 script = ExtResource("1_a0fsj")
+tecmon_details_template = ExtResource("2_djpce")
 
-[node name="Control" type="Control" parent="." unique_id=340015755]
+[node name="BattleUI" type="Control" parent="." unique_id=340015755]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,13 +64,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_awwja")
 
-[node name="BattleBG" type="TextureRect" parent="Control" unique_id=1730593197]
+[node name="BattleBG" type="TextureRect" parent="BattleUI" unique_id=1730593197]
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 112.0
 texture = ExtResource("1_gsrqa")
 
-[node name="EnemyTecmon" type="TextureRect" parent="Control" unique_id=1791780509]
+[node name="EnemyTecmon" type="TextureRect" parent="BattleUI" unique_id=1791780509]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 custom_maximum_size = Vector2(64, 64)
 layout_mode = 0
@@ -39,7 +81,8 @@ offset_right = 247.0
 offset_bottom = 69.0
 texture = ExtResource("2_g0eid")
 
-[node name="PlayerTecmon" type="TextureRect" parent="Control" unique_id=1075925037]
+[node name="PlayerTecmon" type="TextureRect" parent="BattleUI" unique_id=1075925037]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 custom_maximum_size = Vector2(64, 64)
 layout_mode = 0
@@ -49,7 +92,7 @@ offset_right = 128.0
 offset_bottom = 112.0
 texture = ExtResource("3_a0fsj")
 
-[node name="MessageBox" type="NinePatchRect" parent="Control" unique_id=1440834869]
+[node name="MessageBox" type="NinePatchRect" parent="BattleUI" unique_id=1440834869]
 layout_mode = 0
 anchor_top = 0.7
 anchor_right = 0.65
@@ -61,7 +104,7 @@ patch_margin_right = 7
 patch_margin_bottom = 7
 metadata/_edit_use_anchors_ = true
 
-[node name="MoveContainer" type="VBoxContainer" parent="Control/MessageBox" unique_id=1724674273]
+[node name="MoveContainer" type="VBoxContainer" parent="BattleUI/MessageBox" unique_id=1724674273]
 unique_name_in_owner = true
 layout_mode = 0
 anchor_left = 0.03846154
@@ -71,12 +114,12 @@ anchor_bottom = 0.8333333
 theme_override_constants/separation = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MessageBox/MoveContainer" unique_id=1418486926]
+[node name="HBoxContainer" type="HBoxContainer" parent="BattleUI/MessageBox/MoveContainer" unique_id=1418486926]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MoveOne" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer" unique_id=261117867]
+[node name="MoveOne" type="Button" parent="BattleUI/MessageBox/MoveContainer/HBoxContainer" unique_id=261117867]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(96, 0)
@@ -85,7 +128,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 0
 
-[node name="MoveTwo" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer" unique_id=1311645628]
+[node name="MoveTwo" type="Button" parent="BattleUI/MessageBox/MoveContainer/HBoxContainer" unique_id=1311645628]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(96, 0)
@@ -94,12 +137,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MessageBox/MoveContainer" unique_id=1435369195]
+[node name="HBoxContainer2" type="HBoxContainer" parent="BattleUI/MessageBox/MoveContainer" unique_id=1435369195]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MoveThree" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer2" unique_id=1549799311]
+[node name="MoveThree" type="Button" parent="BattleUI/MessageBox/MoveContainer/HBoxContainer2" unique_id=1549799311]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(96, 0)
@@ -108,7 +151,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 0
 
-[node name="MoveFour" type="Button" parent="Control/MessageBox/MoveContainer/HBoxContainer2" unique_id=90608688]
+[node name="MoveFour" type="Button" parent="BattleUI/MessageBox/MoveContainer/HBoxContainer2" unique_id=90608688]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(96, 0)
@@ -117,7 +160,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 0
 
-[node name="ActionMenu" type="NinePatchRect" parent="Control" unique_id=1360454410]
+[node name="ActionMenu" type="NinePatchRect" parent="BattleUI" unique_id=1360454410]
 unique_name_in_owner = true
 layout_mode = 0
 anchor_left = 0.65
@@ -131,7 +174,7 @@ patch_margin_right = 7
 patch_margin_bottom = 7
 metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/ActionMenu" unique_id=1402202264]
+[node name="VBoxContainer" type="VBoxContainer" parent="BattleUI/ActionMenu" unique_id=1402202264]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -145,90 +188,125 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/ActionMenu/VBoxContainer" unique_id=773187597]
+[node name="HBoxContainer" type="HBoxContainer" parent="BattleUI/ActionMenu/VBoxContainer" unique_id=773187597]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Fight" type="Button" parent="Control/ActionMenu/VBoxContainer/HBoxContainer" unique_id=1544166991]
+[node name="Fight" type="Button" parent="BattleUI/ActionMenu/VBoxContainer/HBoxContainer" unique_id=1544166991]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "Fight"
 
-[node name="Items" type="Button" parent="Control/ActionMenu/VBoxContainer/HBoxContainer" unique_id=404049254]
+[node name="Items" type="Button" parent="BattleUI/ActionMenu/VBoxContainer/HBoxContainer" unique_id=404049254]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "Items"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/ActionMenu/VBoxContainer" unique_id=2035574070]
+[node name="HBoxContainer2" type="HBoxContainer" parent="BattleUI/ActionMenu/VBoxContainer" unique_id=2035574070]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Tecmons" type="Button" parent="Control/ActionMenu/VBoxContainer/HBoxContainer2" unique_id=542659484]
+[node name="Tecmons" type="Button" parent="BattleUI/ActionMenu/VBoxContainer/HBoxContainer2" unique_id=542659484]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "Tecmons"
 
-[node name="Escape" type="Button" parent="Control/ActionMenu/VBoxContainer/HBoxContainer2" unique_id=1379539272]
+[node name="Escape" type="Button" parent="BattleUI/ActionMenu/VBoxContainer/HBoxContainer2" unique_id=1379539272]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "Escape"
 
-[node name="EnemyDetails" type="VBoxContainer" parent="Control" unique_id=437340371]
+[node name="EnemyDetails" type="VBoxContainer" parent="BattleUI" unique_id=437340371]
 layout_mode = 0
 offset_left = 56.0
 offset_top = 16.0
 offset_right = 124.0
 offset_bottom = 32.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/EnemyDetails" unique_id=271057276]
+[node name="HBoxContainer" type="HBoxContainer" parent="BattleUI/EnemyDetails" unique_id=271057276]
 layout_mode = 2
 
-[node name="EnemyName" type="Label" parent="Control/EnemyDetails/HBoxContainer" unique_id=1839855742]
+[node name="EnemyName" type="Label" parent="BattleUI/EnemyDetails/HBoxContainer" unique_id=1839855742]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Placeholder"
 
-[node name="EnemyHPLabel" type="Label" parent="Control/EnemyDetails/HBoxContainer" unique_id=1207331631]
+[node name="EnemyHPLabel" type="Label" parent="BattleUI/EnemyDetails/HBoxContainer" unique_id=1207331631]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="EnemyHPBar" type="ProgressBar" parent="Control/EnemyDetails" unique_id=123553268]
+[node name="EnemyHPBar" type="ProgressBar" parent="BattleUI/EnemyDetails" unique_id=123553268]
 unique_name_in_owner = true
 layout_mode = 2
 show_percentage = false
 
-[node name="PlayerDetails" type="VBoxContainer" parent="Control" unique_id=1504772114]
+[node name="PlayerDetails" type="VBoxContainer" parent="BattleUI" unique_id=1504772114]
 layout_mode = 0
 offset_left = 184.0
 offset_top = 88.0
 offset_right = 252.0
 offset_bottom = 104.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/PlayerDetails" unique_id=1466308182]
+[node name="HBoxContainer" type="HBoxContainer" parent="BattleUI/PlayerDetails" unique_id=1466308182]
 layout_mode = 2
 
-[node name="PlayerName" type="Label" parent="Control/PlayerDetails/HBoxContainer" unique_id=1599066942]
+[node name="PlayerName" type="Label" parent="BattleUI/PlayerDetails/HBoxContainer" unique_id=1599066942]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Placeholder"
 
-[node name="PlayerHPLabel" type="Label" parent="Control/PlayerDetails/HBoxContainer" unique_id=324728229]
+[node name="PlayerHPLabel" type="Label" parent="BattleUI/PlayerDetails/HBoxContainer" unique_id=324728229]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="PlayerHPBar" type="ProgressBar" parent="Control/PlayerDetails" unique_id=1829893737]
+[node name="PlayerHPBar" type="ProgressBar" parent="BattleUI/PlayerDetails" unique_id=1829893737]
 unique_name_in_owner = true
 layout_mode = 2
 show_percentage = false
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleUI" unique_id=898028870]
+libraries/ = SubResource("AnimationLibrary_4ao26")
+
+[node name="TecmonUI" type="Control" parent="." unique_id=419360993]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_awwja")
+metadata/_edit_use_anchors_ = true
+
+[node name="BackButton" type="Button" parent="TecmonUI" unique_id=951028480]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 128.0
+offset_right = 168.0
+offset_bottom = 144.0
+text = "back"
+
+[node name="TecmonDetailContainer" type="VBoxContainer" parent="TecmonUI" unique_id=1497098572]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.55
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="Control/ActionMenu/VBoxContainer/HBoxContainer/Fight" to="." method="_on_fight_pressed"]
-[connection signal="pressed" from="Control/ActionMenu/VBoxContainer/HBoxContainer/Items" to="." method="_on_items_pressed"]
-[connection signal="pressed" from="Control/ActionMenu/VBoxContainer/HBoxContainer2/Tecmons" to="." method="_on_tecmons_pressed"]
-[connection signal="pressed" from="Control/ActionMenu/VBoxContainer/HBoxContainer2/Escape" to="." method="_on_escape_pressed"]
+[connection signal="pressed" from="BattleUI/ActionMenu/VBoxContainer/HBoxContainer/Fight" to="." method="_on_fight_pressed"]
+[connection signal="pressed" from="BattleUI/ActionMenu/VBoxContainer/HBoxContainer/Items" to="." method="_on_items_pressed"]
+[connection signal="pressed" from="BattleUI/ActionMenu/VBoxContainer/HBoxContainer2/Tecmons" to="." method="_on_tecmons_pressed"]
+[connection signal="pressed" from="BattleUI/ActionMenu/VBoxContainer/HBoxContainer2/Escape" to="." method="_on_escape_pressed"]
+[connection signal="pressed" from="TecmonUI/BackButton" to="." method="_on_back_button_pressed"]

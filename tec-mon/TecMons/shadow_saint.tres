@@ -9,8 +9,7 @@
 [ext_resource type="Resource" uid="uid://dlp2wek0bb36p" path="res://Moves/intimidate.tres" id="6_mkeyg"]
 [ext_resource type="Script" uid="uid://v1rv26b4ekdy" path="res://Resources/tecmon_data.gd" id="6_t2b15"]
 [ext_resource type="Resource" uid="uid://bp7ouaqo6pf3g" path="res://Moves/enthrawl.tres" id="7_d30ua"]
-[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move_resource.gd" id="8_5uv4c"]
-[ext_resource type="Script" uid="uid://dud68l6yuwm1b" path="res://Resources/stat_change.gd" id="9_vk1as"]
+[ext_resource type="Resource" uid="uid://do02dfodduo3c" path="res://Moves/ban_hammer.tres" id="8_gnlb7"]
 
 [sub_resource type="Resource" id="Resource_r2b17"]
 script = ExtResource("4_3fkcc")
@@ -27,17 +26,9 @@ script = ExtResource("4_3fkcc")
 move = ExtResource("7_d30ua")
 metadata/_custom_type_script = "uid://wk84hdijy5yf"
 
-[sub_resource type="Resource" id="Resource_dh6fi"]
-script = ExtResource("8_5uv4c")
-move_name = "Ban Hammer"
-move_type = 1
-description = "bonk"
-base_power = 1000
-metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"
-
 [sub_resource type="Resource" id="Resource_17t5b"]
 script = ExtResource("4_3fkcc")
-move = SubResource("Resource_dh6fi")
+move = ExtResource("8_gnlb7")
 metadata/_custom_type_script = "uid://wk84hdijy5yf"
 
 [resource]

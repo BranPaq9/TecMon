@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3 uid="uid://0w0qwyleq53i"]
+
+[ext_resource type="Script" uid="uid://bjqf1yy4v7g7u" path="res://Resources/move_resource.gd" id="1_y4j3j"]
+[ext_resource type="Script" uid="uid://dud68l6yuwm1b" path="res://Resources/stat_change.gd" id="2_n2hry"]
+
+[resource]
+script = ExtResource("1_y4j3j")
+move_name = "Kick"
+move_type = 7
+description = "It's a kick!"
+base_power = 50
+metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"

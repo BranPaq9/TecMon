@@ -10,5 +10,5 @@ move_type = 1
 move_category = 2
 ailment = 3
 ailment_chance = 100
-ailment_turns = 1
+ailment_turns = -1
 metadata/_custom_type_script = "uid://bjqf1yy4v7g7u"
