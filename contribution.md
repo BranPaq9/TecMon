@@ -7,11 +7,7 @@ It explains the basic workflow for contributing a feature or fix.
 
 ### Scrum board
 
-Before starting work, check the project Scrum board for current tasks and priorities:
-If you'd like access to the board, submit the email associated with your JIRA account to a maintainer
-
-Here's the board link
-https://pixelgames.atlassian.net/?continue=https%3A%2F%2Fpixelgames.atlassian.net%2Fwelcome%2Fsoftware%3FprojectId%3D10000&atlOrigin=eyJpIjoiNWRiNGI0YjczYjNkNDM0ZTk0MWRjZjMzZWQ3MTAzOWYiLCJwIjoiamlyYS1zb2Z0d2FyZSJ9
+Before starting work, check the project issues board for current tasks and priorities
 If you are unsure what to work on, pick an open task from the board and ask a maintainer if you need clarification.
 
 ### 1. Fork the repository
