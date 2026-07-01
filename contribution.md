@@ -90,7 +90,8 @@ git push origin add-login-page
 2. Click **Compare & pull request** if GitHub shows it.
 3. Make sure the pull request is going to the original TecMon repository.
 4. Write a short title and description of your changes.
-5. Click **Create pull request**.
+5. PLEASE INCLUDE THE ISSUE NUMBER RELATED TO YOUR PR IN THE DESCRIPTION (ex: #123 for issue 123)
+6. Click **Create pull request**.
 
 ### Helpful tips
 
