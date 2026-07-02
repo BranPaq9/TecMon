@@ -61,7 +61,6 @@ theme_override_colors/font_unselected_color = Color(0.51718444, 0.5171845, 0.517
 theme_override_constants/tab_separation = -1
 current_tab = 0
 clip_tabs = false
-tab_1/title = "Audio  "
 
 [node name="Video" type="Control" parent="Control/MenuBG/Control/TabContainer" unique_id=249399063]
 layout_mode = 2
@@ -168,7 +167,6 @@ size_flags_horizontal = 3
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
-metadata/_tab_name = "Audio  "
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/MenuBG/Control/TabContainer/Audio" unique_id=703108696]
 layout_mode = 1

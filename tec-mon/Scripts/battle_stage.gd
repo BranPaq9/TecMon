@@ -46,7 +46,8 @@ func _ready() -> void:
 	BattleSystem.turn_ended.connect(_on_turn_ended)
 	BattleSystem.move_executed.connect(_on_move_executed)
 	BattleSystem.switch_mon.connect(_on_force_switch)
-
+	BattleSystem.lock_buttons.connect(_set_battle_buttons_disabled)
+	
 	move_buttons = [move_one, move_two, move_three, move_four]
 	action_buttons = [fight_button, items_button, tecmons_button, escape_button]
 	
@@ -85,20 +86,20 @@ func _on_turn_ended() -> void:
 	new_turn()
 
 func new_turn() -> void:
-	_set_battle_buttons_enabled(true)
+	_set_battle_buttons_disabled(false)
 	move_container.hide()
 	if not is_switching:
 		MessageBus.send_passive(
 			"What will " + BattleSystem.player_participant.display_name() + " do?"
 		)
 
-func _set_battle_buttons_enabled(enabled: bool) -> void:
-	can_input = enabled
+func _set_battle_buttons_disabled(enabled: bool) -> void:
+	can_input = not enabled
 	for button in action_buttons:
-		button.disabled = not enabled
+		button.disabled = enabled
 		
 	for button in move_buttons:
-		button.disabled = not enabled
+		button.disabled = enabled
 		
 func _refresh_hp_bars() -> void:
 	var enemy: BattleParticipant = BattleSystem.enemy_participant
@@ -139,7 +140,7 @@ func _on_move_button_pressed(index: int) -> void:
 	var move: MoveInstance = BattleSystem.player_participant.current_mon.moves.get(index)
 	if move == null:
 		return
-	_set_battle_buttons_enabled(false)
+	_set_battle_buttons_disabled(true)
 	move_container.hide()
 	AudioManager.play_sfx("select")
 	BattleSystem.queue_move(move)
@@ -176,6 +177,13 @@ func _close_sub_ui() -> void:
 	battle_ui.show()
 
 func _on_tecmon_switched(index: int) -> void:
+	var current_index := BattleSystem.player_participant.party.find(BattleSystem.player_participant.current_mon)
+	if index == current_index and not force_switch:
+		_close_sub_ui()
+		await _say("That Tecmon is already sent out")
+		MessageBus.send_passive("What will " + BattleSystem.player_participant.display_name() + " do?")
+		return
+		
 	BattleSystem.player_participant.switch_to(index)
 	_refresh_hp_bars()
 	_close_sub_ui()
@@ -214,7 +222,9 @@ func _on_item_used(item: ItemData, _target: TecmonInstance) -> void:
 
 func _say(text: String) -> void:
 	MessageBus.send([text])
+	_set_battle_buttons_disabled(true)
 	await MessageBus.message_box_closed
+	_set_battle_buttons_disabled(false)
 
 func _on_force_switch() -> void:
 	can_input = true
@@ -227,10 +237,12 @@ func _on_force_switch() -> void:
 
 func _on_battle_ended(outcome: BattleSystem.BattleOutcome) -> void:
 	var msg: String
+	
 	match outcome:
 		BattleSystem.BattleOutcome.PLAYER_WIN:  msg = "You won!"
 		BattleSystem.BattleOutcome.PLAYER_FLED: msg = "Got away safely!"
 		BattleSystem.BattleOutcome.PLAYER_LOST: msg = "You blacked out..."
+		
 	MessageBus.send([msg], 30)
 	MessageBus.switch_message_box_mode(false)
 	await MessageBus.message_box_closed
