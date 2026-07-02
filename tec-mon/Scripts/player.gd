@@ -50,6 +50,8 @@ func _unhandled_input(_event: InputEvent) -> void:
 		return
 	if Input.is_action_just_pressed("interact"):
 		_check_interaction()
+	elif Input.is_action_just_pressed("pause"):
+		_pause_game()
 
 func _physics_process(delta: float) -> void:
 	process_input_stack()
@@ -183,8 +185,7 @@ func _check_interaction() -> void:
 	for result in results:
 		var collider := result["collider"] as Node
 		if collider and collider.has_method("interact"):
-			collider.interact()
-			break
+			collider.interact(self)
 
 ## Returns true when the tile at the target_position blocks movement. (Has a collision layer)
 func is_target_occupied(target_pos: Vector2) -> bool:
@@ -261,3 +262,7 @@ func update_animation() -> void:
 	animation_tree.set("parameters/conditions/Idle", not moving)
 	animation_tree.set("parameters/conditions/Walking", moving and not is_running)
 	animation_tree.set("parameters/conditions/Running", moving and is_running)
+
+func _pause_game() -> void:
+	SceneManager.game_manager.get_child(4).visible = true
+	get_tree().paused = true

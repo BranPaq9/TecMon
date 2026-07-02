@@ -46,7 +46,7 @@ func _on_start_button_pressed() -> void:
 	SceneManager.go_to(Global.first_level.level_name)
 
 func _on_options_button_pressed() -> void:
-	pass # Replace with function body.
+	SceneManager.game_manager.get_child(5).show()
 
 
 func _on_exit_button_pressed() -> void:
