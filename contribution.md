@@ -5,6 +5,11 @@ Thank you for your interest in contributing to this public repository.
 This guide is written for students and beginners who may be new to GitHub.
 It explains the basic workflow for contributing a feature or fix.
 
+### Scrum board
+
+Before starting work, check the project issues board for current tasks and priorities
+If you are unsure what to work on, pick an open task from the board and ask a maintainer if you need clarification.
+
 ### 1. Fork the repository
 
 1. Open the TecMon repository on GitHub.
@@ -85,7 +90,8 @@ git push origin add-login-page
 2. Click **Compare & pull request** if GitHub shows it.
 3. Make sure the pull request is going to the original TecMon repository.
 4. Write a short title and description of your changes.
-5. Click **Create pull request**.
+5. PLEASE INCLUDE THE ISSUE NUMBER RELATED TO YOUR PR IN THE DESCRIPTION (ex: #123 for issue 123)
+6. Click **Create pull request**.
 
 ### Helpful tips
 
