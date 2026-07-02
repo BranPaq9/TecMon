@@ -50,9 +50,9 @@ theme_override_constants/separation = 2
 [node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=788308765]
 custom_minimum_size = Vector2(70, 70)
 layout_mode = 0
-offset_left = 64.0
+offset_left = 24.0
 offset_top = 8.0
-offset_right = 136.0
+offset_right = 96.0
 offset_bottom = 80.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
 texture = ExtResource("3_6aeki")
@@ -77,17 +77,17 @@ texture = ExtResource("4_rsubf")
 [node name="BackButton" type="Button" parent="." unique_id=1371067226]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 64.0
-offset_top = 136.0
-offset_right = 136.0
-offset_bottom = 152.0
+offset_left = 100.0
+offset_top = 12.0
+offset_right = 172.0
+offset_bottom = 28.0
 text = "back"
 
 [node name="TecmonDesc" type="RichTextLabel" parent="." unique_id=1743972141]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 40.0
-offset_top = 88.0
-offset_right = 136.0
-offset_bottom = 128.0
+offset_left = 24.0
+offset_top = 84.0
+offset_right = 120.0
+offset_bottom = 124.0
 text = "placholder"

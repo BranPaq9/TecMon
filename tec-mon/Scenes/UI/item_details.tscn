@@ -2,18 +2,19 @@
 
 [ext_resource type="FontFile" uid="uid://cnww23kfbhjq0" path="res://Assets/Fonts/Minecraft.ttf" id="1_8yw8x"]
 [ext_resource type="Script" uid="uid://bn6istgxbq3y4" path="res://Scripts/item_details.gd" id="2_q3cbb"]
-[ext_resource type="Texture2D" uid="uid://c382hen5x3oht" path="res://Assets/UI/MessageBox.png" id="3_h4hcq"]
+[ext_resource type="Theme" uid="uid://bpr41avimp173" path="res://Config/general_theme.tres" id="3_530xv"]
+[ext_resource type="Texture2D" uid="uid://d1v3nxc0io2ag" path="res://Assets/UI/MenuBox.png" id="4_qbpbw"]
 
 [sub_resource type="Theme" id="Theme_awwja"]
 default_font = ExtResource("1_8yw8x")
 default_font_size = 8
 
 [node name="ItemDetails" type="Button" unique_id=298499731]
-custom_minimum_size = Vector2(0, 12)
+custom_minimum_size = Vector2(0, 16)
 anchors_preset = -1
 anchor_right = 0.35
-anchor_bottom = 0.075
-offset_bottom = -4.0
+anchor_bottom = 0.1
+offset_bottom = -8.0
 theme = SubResource("Theme_awwja")
 script = ExtResource("2_q3cbb")
 metadata/_edit_use_anchors_ = true
@@ -53,7 +54,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_awwja")
+theme = ExtResource("3_530xv")
 metadata/_edit_use_anchors_ = true
 
 [node name="Panel" type="NinePatchRect" parent="ItemOptions/Control" unique_id=2121352165]
@@ -64,7 +65,7 @@ anchor_top = 0.425
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
-texture = ExtResource("3_h4hcq")
+texture = ExtResource("4_qbpbw")
 patch_margin_left = 7
 patch_margin_top = 7
 patch_margin_right = 7
@@ -84,21 +85,25 @@ metadata/_edit_use_anchors_ = true
 
 [node name="UseButton" type="Button" parent="ItemOptions/Control/Panel/VBoxContainer" unique_id=492632726]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Use"
 
 [node name="GiveButton" type="Button" parent="ItemOptions/Control/Panel/VBoxContainer" unique_id=1744558297]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Give"
 
 [node name="TossButton" type="Button" parent="ItemOptions/Control/Panel/VBoxContainer" unique_id=2139327725]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Toss"
 
 [node name="CancelButton" type="Button" parent="ItemOptions/Control/Panel/VBoxContainer" unique_id=1560896969]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Cancel"
 

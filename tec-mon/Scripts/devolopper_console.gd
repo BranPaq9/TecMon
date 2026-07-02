@@ -85,7 +85,7 @@ func _on_tecmon_pressed(tecmon: TecmonData) -> void:
 	var instance := TecmonInstance.create(tecmon, lvl, nickname, false)
 	Global.player.tecmon_party.push_front(instance)
 
-	await _say("Spawned lv.%d %s (nickname: %s)" % [lvl, tecmon.tecmon_name, instance.display_name()])
+	await _say("Spawned lv.%d %s with nickname %s" % [lvl, tecmon.tecmon_name, instance.display_name()])
 
 func _on_item_pressed(item: ItemData) -> void:
 	if _busy:

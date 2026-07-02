@@ -17,8 +17,8 @@ signal hovered(item: ItemData)
 
 func _ready() -> void:
 	item_options.hide()
-	if item and item.effect == ItemData.Effect.CAPTURE:
-		use_button.text = "Throw"
+	if item.category == item.Category.KEY:
+		toss_button.hide()
 
 func _on_button_up() -> void:
 	item_options.show()

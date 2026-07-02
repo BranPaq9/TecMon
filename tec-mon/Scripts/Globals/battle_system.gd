@@ -6,6 +6,7 @@ signal turn_ended
 signal switch_mon
 signal stage_closed
 signal move_executed(user: BattleParticipant, target: BattleParticipant, move: MoveInstance, result: MoveResult)
+signal lock_buttons(diabled: bool)
 
 enum BattleOutcome { PLAYER_WIN, PLAYER_FLED, PLAYER_LOST }
 enum TurnPhase { IDLE, AWAITING_INPUT, RESOLVING, ENDED }
@@ -60,7 +61,12 @@ func execute_turn() -> void:
 		if _can_flee():
 			_end_battle(BattleOutcome.PLAYER_FLED)
 			return
-		await _say("You couldn't escape!")
+		elif npc_battle:
+			await _say("You cant run from a Trainer battle!")
+			end_turn()
+			return
+		else:
+			await _say("You couldn't escape!")
 
 	var enemy_move := _pick_enemy_move()
 	var player_first := (
@@ -92,7 +98,10 @@ func execute_turn() -> void:
 
 	if await _check_player_faint():
 		return
-			
+		
+	end_turn()
+
+func end_turn():
 	_queued_player_move = null
 	_player_is_fleeing = false
 	_player_skipping = false
@@ -264,7 +273,9 @@ func _end_battle(outcome: BattleOutcome) -> void:
 
 func _say(text: String) -> void:
 	MessageBus.send([text])
+	lock_buttons.emit(true)
 	await MessageBus.message_box_closed
+	lock_buttons.emit(false)
 
 func _ailment_label(ailment: Enums.TecmonAilment) -> String:
 	match ailment:
