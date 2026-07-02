@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpeiuj8ir2cn5"
-path="res://.godot/imported/B1.png-3a387177a7afeb1bdd5f55f82e77535d.ctex"
+uid="uid://crt2jqlri61fd"
+path="res://.godot/imported/heart_dark.png-7874a2986e6e6d068c9bd064f042a544.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/PauseMenu/B1.png"
-dest_files=["res://.godot/imported/B1.png-3a387177a7afeb1bdd5f55f82e77535d.ctex"]
+source_file="res://Assets/Map/heart_dark.png"
+dest_files=["res://.godot/imported/heart_dark.png-7874a2986e6e6d068c9bd064f042a544.ctex"]
 
 [params]
 

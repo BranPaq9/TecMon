@@ -18,7 +18,7 @@ run/canvas_textures/default_texture_filter=1
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="uid://cnhjkeywf22g"
 
 [autoload]
 
@@ -35,8 +35,8 @@ TypeChart="*uid://ggf3pjfkrvh1"
 
 window/size/viewport_width=320
 window/size/viewport_height=160
-window/size/window_width_override=1920
-window/size/window_height_override=960
+window/size/window_width_override=320
+window/size/window_height_override=160
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

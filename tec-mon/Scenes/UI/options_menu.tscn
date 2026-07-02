@@ -4,9 +4,12 @@
 [ext_resource type="Theme" uid="uid://bpr41avimp173" path="res://Config/general_theme.tres" id="2_caj0f"]
 [ext_resource type="Texture2D" uid="uid://d1v3nxc0io2ag" path="res://Assets/UI/MenuBox.png" id="6_3tdd8"]
 
-[node name="OptionsMenu" type="CanvasLayer" unique_id=45860476]
+[node name="OptionsMenu" type="CanvasLayer" unique_id=45860476 node_paths=PackedStringArray("master_slider", "music_slider", "sfx_slider")]
 process_mode = 2
 script = ExtResource("1_plplt")
+master_slider = NodePath("Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Master/MasterVolSlider")
+music_slider = NodePath("Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Music/MusicVolSlider")
+sfx_slider = NodePath("Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/SFX/SFXVolSlider")
 
 [node name="Control" type="Control" parent="." unique_id=383699887]
 texture_filter = 1
@@ -93,7 +96,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Resolution"
 
-[node name="OptionButton" type="OptionButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Resolution" unique_id=1064887323]
+[node name="ResolutionDropdown" type="OptionButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Resolution" unique_id=1064887323]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -122,7 +125,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Screen Mode"
 
-[node name="OptionButton2" type="OptionButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Screen Mode" unique_id=828040851]
+[node name="ScreenModeDropdown" type="OptionButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Screen Mode" unique_id=828040851]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -145,7 +148,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Shaders"
 
-[node name="CheckButton" type="CheckButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Shaders" unique_id=2088826100]
+[node name="ShadersToggle" type="CheckButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Shaders" unique_id=2088826100]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -159,7 +162,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Vsync"
 
-[node name="CheckButton2" type="CheckButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Vsync" unique_id=1521811048]
+[node name="VsyncToggle" type="CheckButton" parent="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Vsync" unique_id=1521811048]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -194,10 +197,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Master"
 
-[node name="HSlider" type="HSlider" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Master" unique_id=1117310418]
+[node name="MasterVolSlider" type="HSlider" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Master" unique_id=1117310418]
 custom_maximum_size = Vector2(-1, 12)
 layout_mode = 2
 size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
 
 [node name="Music" type="HBoxContainer" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer" unique_id=74182646]
 custom_maximum_size = Vector2(-1, 16)
@@ -208,10 +213,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Music"
 
-[node name="HSlider" type="HSlider" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Music" unique_id=614519531]
+[node name="MusicVolSlider" type="HSlider" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Music" unique_id=614519531]
 custom_maximum_size = Vector2(-1, 12)
 layout_mode = 2
 size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
 
 [node name="SFX" type="HBoxContainer" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer" unique_id=968282446]
 custom_maximum_size = Vector2(-1, 16)
@@ -222,10 +229,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "SFX"
 
-[node name="HSlider" type="HSlider" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/SFX" unique_id=1768599410]
+[node name="SFXVolSlider" type="HSlider" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/SFX" unique_id=1768599410]
 custom_maximum_size = Vector2(-1, 12)
 layout_mode = 2
 size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
 
 [node name="VO" type="HBoxContainer" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer" unique_id=1269016056]
 custom_maximum_size = Vector2(-1, 16)
@@ -237,7 +246,7 @@ size_flags_horizontal = 3
 text = "Voice-Overs
 "
 
-[node name="CheckButton" type="CheckButton" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/VO" unique_id=100785862]
+[node name="VOToggle" type="CheckButton" parent="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/VO" unique_id=100785862]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -326,4 +335,12 @@ text = "Back"
 metadata/_edit_use_anchors_ = true
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="item_selected" from="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Resolution/ResolutionDropdown" to="." method="_on_resolution_dropdown_item_selected"]
+[connection signal="item_selected" from="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Screen Mode/ScreenModeDropdown" to="." method="_on_screen_mode_dropdown_item_selected"]
+[connection signal="toggled" from="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Shaders/ShadersToggle" to="." method="_on_shaders_toggle_toggled"]
+[connection signal="toggled" from="Control/MenuBG/Control/TabContainer/Video/ScrollContainer/VBoxContainer/Vsync/VsyncToggle" to="." method="_on_vsync_toggle_toggled"]
+[connection signal="value_changed" from="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Master/MasterVolSlider" to="." method="_on_master_vol_slider_value_changed"]
+[connection signal="value_changed" from="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/Music/MusicVolSlider" to="." method="_on_music_vol_slider_value_changed"]
+[connection signal="value_changed" from="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/SFX/SFXVolSlider" to="." method="_on_sfx_vol_slider_value_changed"]
+[connection signal="toggled" from="Control/MenuBG/Control/TabContainer/Audio/ScrollContainer/VBoxContainer/VO/VOToggle" to="." method="_on_vo_toggle_toggled"]
 [connection signal="pressed" from="Control/MenuBG/Control/BackButton" to="." method="_on_back_button_pressed"]

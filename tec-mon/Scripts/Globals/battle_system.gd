@@ -167,8 +167,10 @@ func _apply_move_effects(move: MoveResource, user: BattleParticipant, target: Ba
 func attempt_capture(item: ItemData) -> void:
 	var enemy: TecmonInstance = enemy_participant.current_mon
 	var catch_rate := _calc_catch_rate(enemy, item)
- 
-	if randf() < catch_rate:
+	var rand_float = randf()
+	print("RANDOM FLOAT: " + str(rand_float))
+	print("CATCH RATE: " + str(catch_rate))
+	if rand_float < catch_rate:
 		Global.player.tecmon_party.append(enemy)
 		await _say("You caught " + enemy.display_name() + "!")
 		_end_battle(BattleOutcome.PLAYER_WIN)
@@ -184,7 +186,7 @@ func attempt_capture(item: ItemData) -> void:
 		turn_ended.emit()
  
 func _calc_catch_rate(target: TecmonInstance, item: ItemData) -> float:
-	var base_rate: float = target.data.catch_rate / 100.0
+	var base_rate: float = target.data.catch_rate  / 100.0
 	var hp_factor: float = (3.0 * target.max_hp - 2.0 * target.current_hp) / (3.0 * target.max_hp)
 	return clamp(base_rate * hp_factor * item.capture_rate_modifier, 0.0, 1.0)
 

@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://075lbaqm3a7m" path="res://Assets/Sounds/SFX/open_chest.wav" id="6_85on0"]
 [ext_resource type="AudioStream" uid="uid://b301gicxnrjnc" path="res://Assets/Sounds/SFX/Dialog/Retro01/SFX_RetroSinglev14.wav" id="6_v1en5"]
 [ext_resource type="AudioStream" uid="uid://bkai3qp6to2ql" path="res://Assets/Sounds/SFX/Dialog/Retro01/SFX_RetroSinglev9.wav" id="7_hfdkt"]
+[ext_resource type="AudioStream" uid="uid://flvxysvfp1nw" path="res://Assets/Sounds/SFX/heal.wav" id="8_hfdkt"]
 
 [sub_resource type="Resource" id="Resource_a6cw8"]
 script = ExtResource("3_88uku")
@@ -54,6 +55,12 @@ tag = "dialog"
 audio_stream = ExtResource("7_hfdkt")
 metadata/_custom_type_script = "uid://dwyly40ou0pls"
 
+[sub_resource type="Resource" id="Resource_jgxw8"]
+script = ExtResource("3_88uku")
+tag = "heal"
+audio_stream = ExtResource("8_hfdkt")
+metadata/_custom_type_script = "uid://dwyly40ou0pls"
+
 [node name="AudioManager" type="Node" unique_id=560959834]
 script = ExtResource("1_a6cw8")
-sfx_pool = Array[ExtResource("3_88uku")]([SubResource("Resource_a6cw8"), SubResource("Resource_rusht"), SubResource("Resource_o68qb"), SubResource("Resource_88uku"), SubResource("Resource_tolam"), SubResource("Resource_v1en5")])
+sfx_pool = Array[ExtResource("3_88uku")]([SubResource("Resource_a6cw8"), SubResource("Resource_rusht"), SubResource("Resource_o68qb"), SubResource("Resource_88uku"), SubResource("Resource_tolam"), SubResource("Resource_v1en5"), SubResource("Resource_jgxw8")])

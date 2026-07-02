@@ -19,5 +19,9 @@ Artist: DeVern
 https://freesound.org/people/DeVern/sounds/517664/
 
 DialogSFX:
-Artist AD Sounds
+Artist: AD Sounds
 https://ad-sounds.itch.io/dialog-text-sound-effects
+
+Heal:
+Artist: LilMati
+https://freesound.org/people/LilMati/sounds/523654/

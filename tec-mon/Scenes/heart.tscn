@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dp3ogqgrt0kxx"]
+
+[ext_resource type="Script" uid="uid://0si535q2qu5j" path="res://Scripts/heart.gd" id="1_jgxw8"]
+[ext_resource type="Texture2D" uid="uid://crt2jqlri61fd" path="res://Assets/Map/heart_dark.png" id="2_jgxw8"]
+[ext_resource type="Texture2D" uid="uid://cb3sw73ih8wp1" path="res://Assets/Map/heart.png" id="2_rycqq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awwja"]
+size = Vector2(16, 16)
+
+[node name="Heart" type="StaticBody2D" unique_id=1091976237 node_paths=PackedStringArray("heart_sprite", "heart_used_sprite")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_jgxw8")
+heart_sprite = NodePath("Heart")
+heart_used_sprite = NodePath("HeartUsed")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=77517132]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_awwja")
+
+[node name="HeartUsed" type="Sprite2D" parent="." unique_id=339542898]
+visible = false
+position = Vector2(0, -2)
+texture = ExtResource("2_jgxw8")
+centered = false
+offset = Vector2(0, 2)
+region_rect = Rect2(16, 18, 16, 14)
+
+[node name="Heart" type="Sprite2D" parent="." unique_id=1634874991]
+position = Vector2(8, 8)
+texture = ExtResource("2_rycqq")
+region_rect = Rect2(0, 0, 96, 96)

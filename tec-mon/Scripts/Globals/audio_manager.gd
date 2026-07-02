@@ -16,6 +16,9 @@ func _ready() -> void:
 		player.bus = "SFX"
 		add_child(player)
 		sfx_players.append(player)
+	
+	set_music_volume(0.5)
+	set_sfx_volume(0.5)
 		
 func play_music(stream: AudioStream, volume_db: float = 0.0) -> void:
 	if music_player.stream == stream and music_player.playing:
@@ -23,7 +26,6 @@ func play_music(stream: AudioStream, volume_db: float = 0.0) -> void:
 	
 	music_player.stop()
 	music_player.stream = stream
-	music_player.volume_db = -30
 	music_player.play()
 	
 func stop_music() -> void:
