@@ -25,4 +25,5 @@ front_shiny_sprite = ExtResource("2_t2b15")
 back_sprite = ExtResource("1_81fdh")
 mini_sprite = ExtResource("4_t2b15")
 learnset = Array[ExtResource("4_3fkcc")]([SubResource("Resource_17t5b")])
+catch_rate = 100.0
 metadata/_custom_type_script = "uid://v1rv26b4ekdy"

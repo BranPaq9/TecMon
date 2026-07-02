@@ -3,6 +3,9 @@ extends Node
 signal encounter_started(encounter: TecmonInstance)  ## Emits a live instance, not a blueprint.
 
 func try_encounter(zone: String = "grass", force : bool = false) -> void:
+	if not Global.player.can_battle():
+		return
+		
 	var level := SceneManager.current_level
 	if level == null or not level.has_encounters:
 		return

@@ -266,3 +266,10 @@ func update_animation() -> void:
 func _pause_game() -> void:
 	SceneManager.game_manager.get_child(4).visible = true
 	get_tree().paused = true
+	
+func can_battle() -> bool:
+	for tecmon in tecmon_party:
+		if tecmon.current_hp != 0:
+			return true
+	return false
+			
