@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bjvjos3e0vm1k"]
+
+[ext_resource type="Script" uid="uid://ifmslctvxk2j" path="res://Scripts/crate.gd" id="1_i4r3v"]
+[ext_resource type="Texture2D" uid="uid://dq5a23226c1jr" path="res://Assets/Interactable Objects/WoodenCrate.png" id="1_wp72f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+
+[node name="Crate" type="CharacterBody2D" unique_id=455141216]
+collision_layer = 16
+collision_mask = 15
+script = ExtResource("1_i4r3v")
+
+[node name="Crate" type="CollisionShape2D" parent="." unique_id=485145198]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_yf5fn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1252918817]
+position = Vector2(8, 8)
+texture = ExtResource("1_wp72f")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=651747700]
+position = Vector2(8, 8)
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1242980238]
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[connection signal="body_entered" from="Area2D" to="." method="_player_detected"]
