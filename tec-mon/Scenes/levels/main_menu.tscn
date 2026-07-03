@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://csiiq5rwq68q" path="res://Scripts/level.gd" id="1_sv7jc"]
 [ext_resource type="Resource" uid="uid://qntercaclsvu" path="res://Levels/MainMenu.tres" id="2_mtphh"]
 [ext_resource type="Texture2D" uid="uid://biksvx28e0gqs" path="res://Assets/UI/MainMenu/TempLogo.png" id="2_uahs1"]
-[ext_resource type="Script" uid="uid://c4aclg85ofe2k" path="res://Scripts/menu_section.gd" id="4_457bt"]
+[ext_resource type="Script" uid="uid://c4aclg85ofe2k" path="res://Scripts/UI/menu_section.gd" id="4_457bt"]
 [ext_resource type="Theme" uid="uid://bpr41avimp173" path="res://Config/general_theme.tres" id="4_xqnlp"]
 [ext_resource type="FontFile" uid="uid://cnww23kfbhjq0" path="res://Assets/Fonts/Minecraft.ttf" id="5_sv7jc"]
 [ext_resource type="Texture2D" uid="uid://d1v3nxc0io2ag" path="res://Assets/UI/MenuBox.png" id="6_2m23o"]

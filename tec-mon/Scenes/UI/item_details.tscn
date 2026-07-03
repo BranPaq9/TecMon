@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://h6mjwm3mjri7"]
 
 [ext_resource type="FontFile" uid="uid://cnww23kfbhjq0" path="res://Assets/Fonts/Minecraft.ttf" id="1_8yw8x"]
-[ext_resource type="Script" uid="uid://bn6istgxbq3y4" path="res://Scripts/item_details.gd" id="2_q3cbb"]
+[ext_resource type="Script" uid="uid://bn6istgxbq3y4" path="res://Scripts/UI/item_details.gd" id="2_q3cbb"]
 [ext_resource type="Theme" uid="uid://bpr41avimp173" path="res://Config/general_theme.tres" id="3_530xv"]
 [ext_resource type="Texture2D" uid="uid://d1v3nxc0io2ag" path="res://Assets/UI/MenuBox.png" id="4_qbpbw"]
 

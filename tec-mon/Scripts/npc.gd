@@ -8,6 +8,7 @@ const MOVE_SPEED : int = 32
 const STOPPING_DISTANCE_TILES : int = 1
 
 @export var npc_type: NPCTypes = NPCTypes.BATTLE
+@export var big_sprite: Texture2D
 @export var party_data: Array[TecmonData] = []
 @export var tecmon_levels: Array[int] = []
 @export_multiline() var initial_dialog: Array[String] = []

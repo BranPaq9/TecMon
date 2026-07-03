@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://casfmvq083j8x"]
 
-[ext_resource type="Script" uid="uid://vnsremda8h6t" path="res://Scripts/chest.gd" id="1_cjfl1"]
+[ext_resource type="Script" uid="uid://vnsremda8h6t" path="res://Scripts/objects/chest.gd" id="1_cjfl1"]
 [ext_resource type="Texture2D" uid="uid://cm545b88416av" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Chest.png" id="2_bagqn"]
 [ext_resource type="Texture2D" uid="uid://deu1p1gjago3e" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/ChestEmpty.png" id="2_cjfl1"]
 

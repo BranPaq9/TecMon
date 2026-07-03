@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c6husefcwyqqo"]
 
 [ext_resource type="Texture2D" uid="uid://c2ucglw36ykmh" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic Plants.png" id="1_jsaq5"]
-[ext_resource type="Script" uid="uid://2thqio3382pc" path="res://Scripts/tall_grass.gd" id="1_vev6b"]
+[ext_resource type="Script" uid="uid://2thqio3382pc" path="res://Scripts/objects/tall_grass.gd" id="1_vev6b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_awwja"]
 size = Vector2(14, 14)
