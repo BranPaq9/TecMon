@@ -29,12 +29,19 @@ var default_frame : int
 var target_position: Vector2
 var is_moving_tile := false
 
+@onready var area_2d: Area2D = %Area2D
+
 func _ready() -> void:
 	default_frame = get_node("%NPC").frame
+	
+	if not can_chase:
+		area_2d.monitoring = false
+		
 	while not party_data.is_empty():
 		party_instance.append(TecmonInstance.create(party_data[0], tecmon_levels[0], party_data[0].tecmon_name))
 		tecmon_levels.pop_front()
 		party_data.pop_front()
+		
 	match (facing_direction):
 		1:
 			get_node("%Area2D").rotation_degrees = 90

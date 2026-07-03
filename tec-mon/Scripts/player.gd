@@ -112,12 +112,18 @@ func read_input() -> void:
 
 func start_moving() -> void:
 	var desired_target: Vector2 = global_position + move_direction * TILE_SIZE
-	if is_target_occupied(desired_target):
+
+	var pushable := _get_pushable_at(desired_target)
+	if pushable:
+		if not pushable.try_push(move_direction, tile_collision_layers):
+			return  ## Blocked — can't push further.
+	elif is_target_occupied(desired_target):
 		return
+
 	target_position = desired_target
 	current_move_speed = run_speed if Input.is_action_pressed("run") else walk_speed
 	is_running = current_move_speed == run_speed
-	
+
 	if character_action == CharacterMovement.JUMPING:
 		progress = 0.0
 		start_position = global_position
@@ -186,7 +192,16 @@ func _check_interaction() -> void:
 		var collider := result["collider"] as Node
 		if collider and collider.has_method("interact"):
 			collider.interact(self)
-
+			
+func _get_pushable_at(pos: Vector2) -> PushableBlock:
+	var query := create_query(pos, [5])
+	var results := get_world_2d().direct_space_state.intersect_point(query)
+	for result in results:
+		var collider := result["collider"] as Node
+		if collider is PushableBlock:
+			return collider
+	return null
+	
 ## Returns true when the tile at the target_position blocks movement. (Has a collision layer)
 func is_target_occupied(target_pos: Vector2) -> bool:
 	var space_state := get_world_2d().direct_space_state
