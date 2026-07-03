@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ds8jy82d08ig4"]
 
-[ext_resource type="Script" uid="uid://0eh5patxr1pk" path="res://Scripts/options_menu.gd" id="1_plplt"]
+[ext_resource type="Script" uid="uid://0eh5patxr1pk" path="res://Scripts/UI/options_menu.gd" id="1_plplt"]
 [ext_resource type="Theme" uid="uid://bpr41avimp173" path="res://Config/general_theme.tres" id="2_caj0f"]
 [ext_resource type="Texture2D" uid="uid://d1v3nxc0io2ag" path="res://Assets/UI/MenuBox.png" id="6_3tdd8"]
 

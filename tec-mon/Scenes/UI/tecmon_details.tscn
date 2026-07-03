@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dc71oj1pdd6ct"]
 
 [ext_resource type="FontFile" uid="uid://cnww23kfbhjq0" path="res://Assets/Fonts/Minecraft.ttf" id="1_rldbs"]
-[ext_resource type="Script" uid="uid://y884e2b5ppad" path="res://Scripts/tecmon_details.gd" id="1_xst1j"]
+[ext_resource type="Script" uid="uid://y884e2b5ppad" path="res://Scripts/UI/tecmon_details.gd" id="1_xst1j"]
 [ext_resource type="Texture2D" uid="uid://b7rjuaf05hflh" path="res://Assets/Tecmons/ShadowSaint/ShadowSaintMini.png" id="1_xydj4"]
 [ext_resource type="Texture2D" uid="uid://dl3hbw0qxuj1q" path="res://Assets/UI/tecmon_frame.png" id="2_wur2x"]
 [ext_resource type="Texture2D" uid="uid://daq1hfl0vv2rd" path="res://Assets/UI/tecmon_fainted_frame.png" id="3_uy1hy"]

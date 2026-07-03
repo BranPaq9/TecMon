@@ -8,6 +8,7 @@ const MOVE_SPEED : int = 32
 const STOPPING_DISTANCE_TILES : int = 1
 
 @export var npc_type: NPCTypes = NPCTypes.BATTLE
+@export var big_sprite: Texture2D
 @export var party_data: Array[TecmonData] = []
 @export var tecmon_levels: Array[int] = []
 @export_multiline() var initial_dialog: Array[String] = []
@@ -91,6 +92,7 @@ func interact(player: Player) -> void:
 	
 func start_battle(player: Player) -> void:
 	can_interact = false
+	await SceneManager._transition_in()
 	BattleSystem.start_battle(party_instance, player.tecmon_party, true)
 	BattleSystem.stage_closed.connect(_on_battle_ended, CONNECT_ONE_SHOT)
 	

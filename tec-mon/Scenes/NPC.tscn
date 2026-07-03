@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dspetidqkug4k" path="res://Scripts/npc.gd" id="1_tdvfm"]
 [ext_resource type="Texture2D" uid="uid://7c6x878jski6" path="res://Assets/Characters/ForestNpcs.png" id="2_fo5tq"]
+[ext_resource type="Texture2D" uid="uid://b2q77sq0djb30" path="res://Assets/Characters/ForestNpcs_Trainers.png" id="2_xs5w8"]
 
 [sub_resource type="Animation" id="Animation_fo5tq"]
 length = 0.001
@@ -105,6 +106,7 @@ size = Vector2(16, 64)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_tdvfm")
+big_sprite = ExtResource("2_xs5w8")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1088886024]
