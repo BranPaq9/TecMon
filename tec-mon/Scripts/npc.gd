@@ -92,6 +92,7 @@ func interact(player: Player) -> void:
 	
 func start_battle(player: Player) -> void:
 	can_interact = false
+	await SceneManager._transition_in()
 	BattleSystem.start_battle(party_instance, player.tecmon_party, true)
 	BattleSystem.stage_closed.connect(_on_battle_ended, CONNECT_ONE_SHOT)
 	

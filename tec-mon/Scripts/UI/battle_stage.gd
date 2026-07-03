@@ -26,12 +26,11 @@ extends CanvasLayer
 @onready var tecmons_button: Button = %Tecmons
 @onready var escape_button: Button = %Escape
 
-## Sub-scenes added as children of BattleStage in the editor.
 @onready var tecmon_ui = $TecmonUI
 @onready var item_ui = $ItemUI
 
-@export var details_template: PackedScene
-@export var item_details_template: PackedScene
+var _bloom_material: ShaderMaterial
+@export var bloom_shader: Shader
 
 var can_input: bool = false
 var move_buttons: Array[Button]
@@ -61,7 +60,12 @@ func _ready() -> void:
 	tecmon_ui.back_pressed.connect(_close_sub_ui)
 	item_ui.item_used.connect(_on_item_used)
 	item_ui.back_pressed.connect(_close_sub_ui)
-
+	
+	_bloom_material = ShaderMaterial.new()
+	_bloom_material.shader = bloom_shader
+	player_sprite.material = _bloom_material.duplicate()
+	enemy_sprite.material = _bloom_material.duplicate()
+	
 	hide()
 	tecmon_ui.hide()
 	item_ui.hide()
@@ -71,6 +75,7 @@ func _on_encounter_started(enemy_instance: TecmonInstance) -> void:
 	MessageBus.switch_message_box_mode(true)
 	await MessageBus.message_box_closed
 	await SceneManager._transition_out()
+	player_sprite.hide()
 	BattleSystem.start_battle([enemy_instance], Global.player.tecmon_party, false)
 
 func _on_battle_started() -> void:
@@ -80,6 +85,25 @@ func _on_battle_started() -> void:
 	new_turn()
 	show()
 	await SceneManager._transition_in()
+	animation_player.play("tecmon_chosen")
+	player_sprite.show()
+	_play_chosen_flash(player_sprite)
+	
+func _play_chosen_flash(sprite: TextureRect) -> void:
+	var mat := sprite.material as ShaderMaterial
+	mat.set_shader_parameter("bloomThreshold", 0.0)
+	mat.set_shader_parameter("bloomIntensity", 0.0)
+
+	var tween := create_tween()
+	tween.tween_method(
+		func(v): mat.set_shader_parameter("bloomIntensity", v),
+		0.0, 40.0, 0.15
+	).set_ease(Tween.EASE_OUT)
+	tween.tween_method(
+		func(v): mat.set_shader_parameter("bloomIntensity", v),
+		40.0, 0.0, 0.35
+	).set_ease(Tween.EASE_IN)
+	tween.tween_callback(func(): mat.set_shader_parameter("bloomThreshold", 1.0))
 
 func _on_turn_ended() -> void:
 	_refresh_hp_bars()
